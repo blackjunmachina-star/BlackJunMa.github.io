@@ -181,7 +181,7 @@ $$</p>
 $$</p>
 <p>其中 $m$根据分布 $X_n$选取。一个PKE方案是EAV-Secure，当且仅当其EAV-语义安全。</p>
 <h5>伪随机发生器(Pseudorandom Generator,PRG)</h5>
-<p>设 $l(n)&amp;gt;l$为一个多项式， $G:{0,1}^n\to{0,1}^{l(n)}$为一个算法，如果对任何PPT的区分器$D$均有</p>
+<p>设 $l(n) &amp;gt; l$为一个多项式， $G:{0,1}^n\to{0,1}^{l(n)}$为一个算法，如果对任何PPT的区分器$D$均有</p>
 <p>$$
 |\mathrm{Pr}[D(r)=1]-\mathrm{Pr}[D(G(s))=1]|\leq\mathrm{negl}(n)
 $$</p>
@@ -190,7 +190,7 @@ $$</p>
 <p>$\mathrm{Gen}$:输入 $1^n$，均匀选择 $k\leftarrow{0,1}^n$; $\mathrm{Enc}_k(m)=G(k)\oplus m$; $\mathrm{Dec}_k(c)=G(k)\oplus c$</p>
 <p>一个确定多项式时间算法 $G$是变长PRG，如果：<br>
 (1)令 $s$是字符串，则 $G(s,1^l)$输出长度为 $l$</p>
-<p>(2) $G(s, 1^l)$是 $G(s, 1^{l'})$的前缀对任意的 $s, l&amp;lt;l'$成立</p>
+<p>(2) $G(s, 1^l)$是 $G(s, 1^{l'})$的前缀，其中 $l &amp;lt; l'$。</p>
 <p>(3)定义 $G_l(s)=G(s,1^{l(|s|)})$</p>
 <p>称扩展因子为 $l$。</p>
 <h5>伪随机函数(Pseudorandom Function,PRF)</h5>
