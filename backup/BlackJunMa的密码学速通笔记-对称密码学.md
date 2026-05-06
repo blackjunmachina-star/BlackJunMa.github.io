@@ -154,7 +154,7 @@ $$
 
 ##### 伪随机发生器(Pseudorandom Generator,PRG)
 
-$G: \\{0,1 \\}^n\to \\{0,1 \\}^{l(n)}$为一个算法(其中 $l(n)\textless n$为一个多项式)，如果对任何PPT的区分器$D$均有
+$G: \\{0,1 \\}^n\to \\{0,1 \\}^{l(n)}$为一个算法(其中 $l(n)\lt n$为一个多项式)，如果对任何PPT的区分器$D$均有
 
 $$
 |\mathrm{Pr}[D(r)=1]-\mathrm{Pr}[D(G(s))=1]|\leq\mathrm{negl}(n)
@@ -166,7 +166,7 @@ $$
 
 $\mathrm{Gen}$:输入 $1^n$，均匀选择 $k\leftarrow\\{0,1\\}^n$; $\mathrm{Enc}_k(m)=G(k)\oplus m$; $\mathrm{Dec}_k(c)=G(k)\oplus c$
 
-一个确定多项式时间算法 $G$是变长PRG， $l\leq l'$，如果：
+一个确定多项式时间算法 $G$是变长PRG， $l\lt l'$，如果：
 (1)令 $s$是字符串，则 $G(s,1^l)$输出长度为 $l$
 
 (2) $G(s, 1^l)$是 $G(s, 1^{l'})$的前缀。
@@ -221,4 +221,4 @@ $r\leftarrow\{0,1\},\mathrm{Enc}_k(m)=(r,F_k(r)\oplus m)$; $\mathrm{Dec}_k(r,s)=
 
 可以证明，若 $F$符合PRF的定义，则该构造方案作为消息长度为 $n$的定长PKE方案，是CPA-Secure。
 
-3 $\textless$
+3 $\lt\gt$
