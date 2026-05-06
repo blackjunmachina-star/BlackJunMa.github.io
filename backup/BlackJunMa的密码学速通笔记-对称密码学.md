@@ -293,7 +293,7 @@ PRF可以用于构造MAC。假设 $F$是一个PRF，我们可以直接定义输�
 
 ##### 带密钥Hash函数
 
-带密钥Hash函数是一对多项式时间算法$(\mathrm{Gen,}H)$，其中$\mathrm{Gen}$输出密钥$s$，$1^n$隐含在$s$中。而$H^s(\sim)$是一个长度为$l(n)$的Hash函数。如果输入$x\in\{0,1\}^{l'(n)},l'(n)>l(n)$，则称该函数为输入$l'(n)$的Hash函数。
+带密钥Hash函数是一对多项式时间算法$(\mathrm{Gen,}H)$，其中$\mathrm{Gen}$输出密钥$s$，$1^n$隐含在$s$中。而 $H^s(\sim)$是一个长度为 $l(n)$的Hash函数。如果输入$x\in\\{0,1\\}^{l'(n)},l'(n)\lt l(n)$，则称该函数为输入 $l'(n)$的Hash函数。
 
 一个Hash函数是抗碰撞(Collision Resistant)的，如果
 
@@ -303,14 +303,20 @@ $$
 
 ##### HMAC
 
-可以使用Hash函数构造MAC，即HMAC。令$H$为一个定长抗碰撞Hash，令HMAC如下：
+可以使用Hash函数构造MAC，即HMAC。令 $H$为一个定长抗碰撞Hash，令HMAC如下：
 
-(1)$\mathrm{Gen}$:输入$1^n$得到$s$，并且随机选择$k\leftarrow\{0,1\}^{n'}$。令$\mathrm{opad,ipad}\in\{0,1\}^{n'}$。
+(1) $\mathrm{Gen}$:输入$1^n$得到$s$，并且随机选择 $k\leftarrow\\{0,1\\}^{n'}$。令 $\mathrm{opad,ipad}\in\\{0,1\\}^{n'}$。
 
-(2)$\mathrm{Mac}:$对密钥$(s,k)$和长度$L$的消息$m$，输出标记
+(2) $\mathrm{Mac}:$对密钥 $(s,k)$和长度 $L$的消息 $m$，输出标记
 
 $$
 t=H^s((k\oplus\mathrm{opad})||H^s((k\oplus\mathrm{ipad})||m))
 $$
 
-(3)$\mathrm{Vrfy}:$直接验证$\mathrm{Mac}_k(m)$是否为$t$。
+(3) $\mathrm{Vrfy}:$直接验证 $\mathrm{Mac}_k(m)$是否为 $t$。
+
+
+
+
+
+

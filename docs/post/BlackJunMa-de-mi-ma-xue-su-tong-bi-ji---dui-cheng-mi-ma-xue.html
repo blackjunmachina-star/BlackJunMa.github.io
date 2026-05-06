@@ -263,19 +263,19 @@ $$</p>
 <p>可以证明，CBC-MAC若有 $F$为PRF，则该MAC是存在性不可伪造的。</p>
 <h3>Hash</h3>
 <h5>带密钥Hash函数</h5>
-<p>带密钥Hash函数是一对多项式时间算法$(\mathrm{Gen,}H)$，其中$\mathrm{Gen}$输出密钥$s$，$1^n$隐含在$s$中。而$H^s(\sim)$是一个长度为$l(n)$的Hash函数。如果输入$x\in{0,1}^{l'(n)},l'(n)&gt;l(n)$，则称该函数为输入$l'(n)$的Hash函数。</p>
+<p>带密钥Hash函数是一对多项式时间算法$(\mathrm{Gen,}H)$，其中$\mathrm{Gen}$输出密钥$s$，$1^n$隐含在$s$中。而 $H^s(\sim)$是一个长度为 $l(n)$的Hash函数。如果输入$x\in\{0,1\}^{l'(n)},l'(n)\lt l(n)$，则称该函数为输入 $l'(n)$的Hash函数。</p>
 <p>一个Hash函数是抗碰撞(Collision Resistant)的，如果</p>
 <p>$$
 \mathrm{Pr}[\mathrm{Hashcoll}_{\mathcal{A},H}(n)=1]\leq\mathrm{negl}
 $$</p>
 <h5>HMAC</h5>
-<p>可以使用Hash函数构造MAC，即HMAC。令$H$为一个定长抗碰撞Hash，令HMAC如下：</p>
-<p>(1)$\mathrm{Gen}$:输入$1^n$得到$s$，并且随机选择$k\leftarrow{0,1}^{n'}$。令$\mathrm{opad,ipad}\in{0,1}^{n'}$。</p>
-<p>(2)$\mathrm{Mac}:$对密钥$(s,k)$和长度$L$的消息$m$，输出标记</p>
+<p>可以使用Hash函数构造MAC，即HMAC。令 $H$为一个定长抗碰撞Hash，令HMAC如下：</p>
+<p>(1) $\mathrm{Gen}$:输入$1^n$得到$s$，并且随机选择 $k\leftarrow\{0,1\}^{n'}$。令 $\mathrm{opad,ipad}\in\{0,1\}^{n'}$。</p>
+<p>(2) $\mathrm{Mac}:$对密钥 $(s,k)$和长度 $L$的消息 $m$，输出标记</p>
 <p>$$
 t=H^s((k\oplus\mathrm{opad})||H^s((k\oplus\mathrm{ipad})||m))
 $$</p>
-<p>(3)$\mathrm{Vrfy}:$直接验证$\mathrm{Mac}_k(m)$是否为$t$。</p></div>
+<p>(3) $\mathrm{Vrfy}:$直接验证 $\mathrm{Mac}_k(m)$是否为 $t$。</p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
