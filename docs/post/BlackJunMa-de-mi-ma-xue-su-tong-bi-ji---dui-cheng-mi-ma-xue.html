@@ -126,7 +126,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>(2)当且仅当 $x\neq x',H^s(x)=H^s(x')$，输出为 $1$。</p>
 <h3>完善保密加密：</h3>
 <h5>完善保密(Perfectly Secret)的定义</h5>
-<p>一个方案 $(\mathrm{Gen,Enc,Dec})$是完善保密的，如果对于任意明文空间 $\mathcal{M}$的分布，任意的明文和密文 $m\in\mathcal{M}, c\in\mathcal{C}, \mathrm{Pr}[C]&amp;gt;0$，</p>
+<p>一个方案 $(\mathrm{Gen,Enc,Dec})$是完善保密的，如果对于任意明文空间 $\mathcal{M}$的分布和$m\in\mathcal{M}, c\in\mathcal{C}, \mathrm{Pr}[C]&gt;0$</p>
 <p>$$
 \mathrm{Pr}[M=m|C=c]=\mathrm{Pr}[M=m]
 $$</p>
@@ -147,7 +147,7 @@ $$</p>
 <h5>完善保密的性质与Shannon定理</h5>
 <p>完善保密必然是 $|\mathcal{K}|\geq|\mathcal{M}|$的，也就是密钥空间的基数大于明文空间的基数。</p>
 <p>如果 $|\mathcal{K}|=|\mathcal{M}|=|\mathcal{C}|$，则当且仅当下列条件成立时方案完善保密：(1)任意密钥 $k\in\mathcal{K}$都是 $1/|\mathcal{K}|$概率。(2)对任意明文 $m\in\mathcal{M}$和密文 $c\in\mathcal{C}$，存在唯一的 $k\in\mathcal{K}$ 使得 $\mathrm{Enc}_k(m)=c$。</p>
-<h3>PKE部分</h3>
+<h3>PKE</h3>
 <h5>对称密钥加密/私钥加密(Private Key Encryption,PKE)</h5>
 <p>一个PKE加密方案 $(\mathrm{Gen,Enc,Dec})$均是多项式时间算法：</p>
 <p>(1) $\mathrm{Gen}(1^n)$输出 $k$，WLOG，我们令 $|k|\geq n$。</p>

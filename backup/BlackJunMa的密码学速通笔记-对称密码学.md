@@ -66,7 +66,7 @@
 
 ##### 完善保密(Perfectly Secret)的定义
 
-一个方案 $(\mathrm{Gen,Enc,Dec})$是完善保密的，如果对于任意明文空间 $\mathcal{M}$的分布，任意的明文和密文 $m\in\mathcal{M}, c\in\mathcal{C}, \mathrm{Pr}[C]>0$，
+一个方案 $(\mathrm{Gen,Enc,Dec})$是完善保密的，如果对于任意明文空间 $\mathcal{M}$的分布和$m\in\mathcal{M}, c\in\mathcal{C}, \mathrm{Pr}[C]>0$
 
 $$
 \mathrm{Pr}[M=m\|C=c]=\mathrm{Pr}[M=m]
@@ -100,7 +100,7 @@ $$
 
 如果 $|\mathcal{K}|=|\mathcal{M}|=|\mathcal{C}|$，则当且仅当下列条件成立时方案完善保密：(1)任意密钥 $k\in\mathcal{K}$都是 $1/|\mathcal{K}|$概率。(2)对任意明文 $m\in\mathcal{M}$和密文 $c\in\mathcal{C}$，存在唯一的 $k\in\mathcal{K}$ 使得 $\mathrm{Enc}_k(m)=c$。
 
-### PKE部分
+### PKE
 
 ##### 对称密钥加密/私钥加密(Private Key Encryption,PKE)
 
