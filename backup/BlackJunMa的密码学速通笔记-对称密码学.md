@@ -217,8 +217,100 @@ $$
 
 构造一个方案：令 $F$为PRF， $\mathrm{Gen}(1^n):k\leftarrow\{0,1\}^n$均匀选取；
 
-$r\leftarrow\{0,1\},\mathrm{Enc}_k(m)=(r,F_k(r)\oplus m)$; $\mathrm{Dec}_k(r,s)=F_k(r)\oplus s$
+$r\leftarrow\\{0,1\\},\mathrm{Enc}_k(m)=(r,F_k(r)\oplus m)$; $\mathrm{Dec}_k(r,s)=F_k(r)\oplus s$
 
 可以证明，若 $F$符合PRF的定义，则该构造方案作为消息长度为 $n$的定长PKE方案，是CPA-Secure。
 
-3 $\lt\gt$
+##### 密码分组链接(Cipher Blowk Chaining)
+
+该方案需要先选取一个长度为 $n$的初始值 $c_0$，最后密文包含 $c_0$。
+
+$$
+c_i=F_k(c_{i-1}\oplus m_i),1\leq i\leq l
+$$
+
+$$
+m_i=F^{-1}_k(c_i)\oplus c_{i-1},1\leq i\leq l
+$$
+
+若 $F$为PRP，可以证明CBC是CPA-Secure。该方案不可并行处理。
+
+##### 输出反馈模式(Output Feedback,OFB)
+
+该方案需要先选取长度$n$的初值 $v_0$，并且定义 $v_i=F_k(v_{i-1})$，
+
+$$
+c_i=m_i\oplus v_i,m_i=c_i\oplus v_i,1\leq i\leq l
+$$
+
+相比于CBC,该方案不需要 $F$可逆，如果可以预先计算 $v_i$，则该方案可以并行处理。如果 $F$是PRF，则该方案是CPA-Secure。
+
+##### 计数器模式(CTR)
+
+先选取一个随机的 $v_0$，并且直接使用
+
+$$
+c_i=m_i\oplus F_k(v_0+i),m_i=c_i\oplus F_k(v_0+i),1\leq i\leq l
+$$
+
+该解密不要求 $F$可逆。若 $F$为PRF，则其为CPA-Secure。可以并行处理。
+
+### 消息鉴别码(Message Authentication Code,MAC)
+
+##### MAC
+
+MAC是一个PPT算法三元组 $(\mathrm{Gen,Mac,Vrfy})$，满足： $\mathrm{Gen}$输入$1^n$，输出 $k,|k|\geq n$; $\mathrm{Mac}$输入 $k,m\in\\{0,1\\}^{\ast}$，输出 $t$； $\mathrm{Vrfy}$输入 $k,m,t$，输出 $b$； $b=1$当且仅当 $t=\mathrm{Mac}_k(m)$，否则为 $0$。
+
+一个MAC如果对任意多项式的 $\mathcal{A}$存在
+
+$$
+\mathrm{Pr}[\mathrm{Macforge}_{\mathcal{A},\Pi}(n)=1]\leq\mathrm{negl}
+$$
+
+则称之为适应性选择消息下存在性不可伪造的(Existentially Unforgeable Under an Adaptive Chosen-Message Attack)
+
+##### PRF-MAC
+
+PRF可以用于构造MAC。假设 $F$是一个PRF，我们可以直接定义输出tag为 $t=F_k(m)$，并且令 $\mathrm{Vrfy}$为当且仅当 $t=F_k(m)$时输出 $1$。
+
+可以证明，该MAC是存在性不可伪造的。可以由以下方法，将定长MAC $(\mathrm{Gen',Mac',Vrfy'})$构造变长 $(\mathrm{Gen,Mac,Vrfy})$，将长度为 $n$扩展到 $2^{n/4}$：
+ 
+(1) $\mathrm{Gen'=Gen}$
+
+(2) $\mathrm{Mac}$输入$k\in\\{0,1\\}^n,m\in\\{0,1\\}^{\ast}$，在用 $0$填充后令 $l\lt 2^{n/4}$，将 $m$分成 $n/4$长度的段 $m_1,\dots,m_d$，选取随机标识码 $r\leftarrow\\{0,1\\}^{n/4}$。计算 $t_i\leftarrow\mathrm{Mac}'_k(r||l||i||m_i)$，其中 $i,l$使用二进制编码。输出 $t=(r,t_1,\dots,t_d)$
+
+(3) $\mathrm{Vrfy}$输入 $k$和 $m$，消息长度 $l\lt 2^{n/4}$，标记 $t=(r,t_1,\dots,t_{d'})$，将 $m$分块 $m_1,\dots,m_d$，当且仅当 $d=d'$时继续进行；若每一个 $\mathrm{Vrfy}'_k(r||l||i||m_i,t_i)=1$，则输出 $1$。
+
+这种延长得到的MAC也可以继承存在性不可伪造的特性。
+
+##### CBC-MAC
+
+可以使用CBC模式来构造MAC。令 $F$为PRF，定义CBC-MAC如下： $\mathrm{Gen}$生成 $k\leftarrow\\{0,1\\}^n$； $\mathrm{Mac}$:输入 $k$和长度 $n\cdot l(n)$的 $m$，将 $m$解析成分块 $m_1,\dots,m_l$， $t_0=0^n$，并构造 $t_i=F_k(t_{i-1}\oplus m_i)$。输出 $t_l$作为tag。 $\mathrm{Vrfy}$:输入密钥 $k$，监测 $m$长度是否为 $n\cdot l(n)$，当且仅当 $t=\mathrm{Mac}_k(m)$时输出 $1$。
+
+可以证明，CBC-MAC若有 $F$为PRF，则该MAC是存在性不可伪造的。
+
+### Hash
+
+##### 带密钥Hash函数
+
+带密钥Hash函数是一对多项式时间算法$(\mathrm{Gen,}H)$，其中$\mathrm{Gen}$输出密钥$s$，$1^n$隐含在$s$中。而$H^s(\sim)$是一个长度为$l(n)$的Hash函数。如果输入$x\in\{0,1\}^{l'(n)},l'(n)>l(n)$，则称该函数为输入$l'(n)$的Hash函数。
+
+一个Hash函数是抗碰撞(Collision Resistant)的，如果
+
+$$
+\mathrm{Pr}[\mathrm{Hashcoll}_{\mathcal{A},H}(n)=1]\leq\mathrm{negl}
+$$
+
+##### HMAC
+
+可以使用Hash函数构造MAC，即HMAC。令$H$为一个定长抗碰撞Hash，令HMAC如下：
+
+(1)$\mathrm{Gen}$:输入$1^n$得到$s$，并且随机选择$k\leftarrow\{0,1\}^{n'}$。令$\mathrm{opad,ipad}\in\{0,1\}^{n'}$。
+
+(2)$\mathrm{Mac}:$对密钥$(s,k)$和长度$L$的消息$m$，输出标记
+
+$$
+t=H^s((k\oplus\mathrm{opad})||H^s((k\oplus\mathrm{ipad})||m))
+$$
+
+(3)$\mathrm{Vrfy}:$直接验证$\mathrm{Mac}_k(m)$是否为$t$。
