@@ -341,8 +341,10 @@ $$\hat{f}(w)=\sum_{a\in\mathbb{F}_2^n}(-1)^{f(x)\oplus w^Tx}$$
 
 ##### 相关矩阵
 
-每一个Boolean函数 $h:\mathbb{F}_2^n\to\mathbb{F}_2^m$都可以定义一个 $2^m\times 2^n$相关矩阵，设 $u\in\mathbb{F}_2^m,w\in\mathbb{F}_2^n$，定义该矩阵的 $(u,w)$元为
+每一个Boolean函数 $h:\mathbb{F}_2^n\to\mathbb{F}_2^m$都可以定义一个 $2^m\times 2^n$相关矩阵，设  $u\in\mathbb{F}_2^m,w\in\mathbb{F}_2^n$，定义该矩阵的 $(u,w)$元为
+
 $$C_{u,w}^{(h)}=C(u^Th(a),w^Ta)$$
+
 可以证明，Boolean函数的复合对应相关矩阵乘积 $C^{(f\circ g)}=C^{(f)}C^{(g)}$，而对于Boolean置换，存在逆关系 $C^{(f^{-1})}=(C^{(f)})^{-1}=(C^{(f)})^T$。
 
 
