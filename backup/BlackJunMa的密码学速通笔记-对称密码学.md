@@ -66,7 +66,7 @@
 
 ##### 完善保密(Perfectly Secret)的定义
 
-一个方案 $(\mathrm{Gen,Enc,Dec})$是完善保密的，如果对于任意明文空间 $\mathcal{M}$的分布，任意的明文 $m\in\mathcal{M}$，以及任意的密文 $c\in\mathcal{C}, \mathrm{Pr}[C]>0$，
+一个方案 $(\mathrm{Gen,Enc,Dec})$是完善保密的，如果对于任意明文空间 $\mathcal{M}$的分布，任意的明文和密文 $m\in\mathcal{M}, c\in\mathcal{C}, \mathrm{Pr}[C]>0$，
 
 $$
 \mathrm{Pr}[M=m\|C=c]=\mathrm{Pr}[M=m]
