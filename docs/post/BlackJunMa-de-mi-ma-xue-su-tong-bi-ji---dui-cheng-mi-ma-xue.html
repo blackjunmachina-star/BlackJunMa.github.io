@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="### 攻击场景
+
+目前根据严重程度可以对密码学攻击分为以下4个类别：
+
+##### 唯密文攻击(Ciphertext-Only Attack):
+
+最基本的攻击方式，敌手只能观察到密文并由此确认明文。">
+<meta property="og:title" content="BlackJunMa的密码学速通笔记-对称密码学">
+<meta property="og:description" content="### 攻击场景
+
+目前根据严重程度可以对密码学攻击分为以下4个类别：
+
+##### 唯密文攻击(Ciphertext-Only Attack):
+
+最基本的攻击方式，敌手只能观察到密文并由此确认明文。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blackjunmachina-star.github.io/BlackJunMa.github.io/post/BlackJunMa-de-mi-ma-xue-su-tong-bi-ji---dui-cheng-mi-ma-xue.html">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
+<title>BlackJunMa的密码学速通笔记-对称密码学</title>
+
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">BlackJunMa的密码学速通笔记-对称密码学</h1>
+<div class="title-right">
+    <a href="https://blackjunmachina-star.github.io/BlackJunMa.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/blackjunmachina-star/BlackJunMa.github.io/issues/2" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h3>攻击场景</h3>
+<p>目前根据严重程度可以对密码学攻击分为以下4个类别：</p>
+<h5>唯密文攻击(Ciphertext-Only Attack):</h5>
+<p>最基本的攻击方式，敌手只能观察到密文并由此确认明文。</p>
+<h5>已知明文攻击(Known Plaintext Attack)</h5>
+<p>敌手可以知道一个或者多个明文-密文对，并由此确认其他密文对应的明文。</p>
+<h5>选择明文攻击(Chosen Plaintext Attack,CPA)</h5>
+<p>敌手可以选择明文并且获得相对应的密文，并试图确定其他密文的对应明文。</p>
+<h5>选择密文攻击(Chosen Ciphertext Attack,CCA)</h5>
+<p>敌手可以选择部分密文并获得其对应明文，试图确认其他密文对应明文。</p>
+<h3>那些特殊函数：</h3>
+<h5>敌手窃听不可区分实验(Adversarial Indistinguishability Experiment) $\mathrm{PrivK}_{\mathcal{A},\Pi}^{\mathrm{eav}}(n)$
+</h5>
+<p>(1)敌手 $\mathcal{A}$输出一对信息 $m_0,m_1\in\mathcal{M}$<br>
+(2)由 $\mathrm{Gen}(1^n)$产生密钥 $k$，并且选取 $b\leftarrow{0,1}$，敌手访问Oracle，可以获得 $c\leftarrow\mathrm{Enc}_k(m_b)$<br>
+(3): $\mathcal{A}$输出一个 $b'\in{0,1}$，如果 $b=b'$则称 $\mathrm{PrivK}_{\mathcal{A},\Pi}^{\mathrm{eav}}=1$，否则为 $0$。</p>
+<h5>多消息窃听实验(Multiple Message Eavesdropping Experiment) $\mathrm{PrivK}_{\mathcal{A},\Pi}^{\mathrm{mult}}(n)$
+</h5>
+<p>(1)敌手 $\mathcal{A}$被输入 $1^n$，输出向量 $(m_0^1,\dots,m_0^t),(m_1^1,\dots,m_1^t)$，并且对应的 $m_b^i$长度相等。</p>
+<p>(2) $k\leftarrow\mathrm{Gen}(1^n),b\leftarrow{0,1}$，对于所有 $i$计算 $c^i\leftarrow\mathrm{Enc}_k(m_b^i)$</p>
+<p>(3) $\mathcal{A}$接受 $(c^1,\dots,c^t)$，并输出 $b'$，若 $b'=b$则实验输出 $1$</p>
+<h5>CPA不可区分实验(CPA Indistinguishability Experiment) $\mathrm{PrivK}_{\mathcal{A},\Pi}^{\mathrm{cpa}}(n)$
+</h5>
+<p>(1) $k\leftarrow\mathrm{Gen}(1^n),\mathcal{A}$在获得 $1^n$时可以访问Oracle $\mathrm{Enc}_k(\sim)$，输出一对 $m_0,m_1$</p>
+<p>(2) $b\leftarrow{0,1},c\leftarrow\mathrm{Enc}_k(m_b)$提交给 $\mathcal{A}$</p>
+<p>(3) $\mathcal{A}$可以继续访问Oracle $\mathrm{Enc}_k(\sim)$,输出 $b'$，若 $b=b'$，则输出 $1$。</p>
+<h5>CCA不可区分实验 $\mathrm{PrivK}_{\mathcal{A},\Pi}^{\mathrm{cca}}(n)$
+</h5>
+<p>(1) $k\leftarrow\mathrm{Gen}(1^n)$, $\mathcal{A}(1^n)$可以调用Oracle $\mathrm{Enc}_k,\mathrm{Dec}_k$，输出一对 $m_0,m_1$。</p>
+<p>(2) $b\leftarrow{0,1},c\leftarrow\mathrm{Enc}_k(m_b)$返回给 $\mathcal{A}$</p>
+<p>(3) $\mathcal{A}$可以继续使用以上的Oracle，但不可以使用 $c$访问 $\mathrm{Dec}_k$，若猜中 $b$则实验输出 $1$</p>
+<h5>消息鉴别码实验(Message Authentication Experiment) $\mathrm{Macforge}_{\mathcal{A},\Pi}(n)$
+</h5>
+<p>(1) $k\leftarrow\mathrm{Gen}(1^n)$, $\mathcal{A}(1^n)$可以调用Oracle $\mathrm{Mac}_k(\sim)$，输出一对 $m,t$</p>
+<p>(2) $\mathcal{Q}$表示 $\mathcal{A}$使用Oracle的询问集合，实验输出 $1$当且仅当 $\mathrm{Vrfy}_k(m,t)=1,m\notin\mathcal{Q}$。</p>
+<h5>Hash函数碰撞发现实验(Collision-Finding Experiment) $\mathrm{Hashcoll}_{\mathcal{A},H}(n)$
+</h5>
+<p>(1)运行 $\mathrm{Gen}(1^n)$获取 $s$, $\mathcal{A}$输入 $s$输出 $x,x'$。</p>
+<p>(2)当且仅当 $x\neq x',H^s(x)=H^s(x')$，输出为 $1$。</p>
+<h3>完善保密加密：</h3>
+<h5>完善保密(Perfectly Secret)的定义</h5>
+<p>一个方案 $(\mathrm{Gen,Enc,Dec})$是完善保密的，如果对于任意明文空间 $\mathcal{M}$的分布，任意的明文 $m\in\mathcal{M}$，以及任意的密文 $c\in\mathcal{C},\mathrm{Pr}[C]&amp;gt;0$，</p>
+<p>$$
+\mathrm{Pr}[M=m|C=c]=\mathrm{Pr}[M=m]
+$$</p>
+<h5>完善保密的等价定义</h5>
+<p>可以把上式换成</p>
+<p>$$
+\mathrm{Pr}[C=c|M=m]=\mathrm{Pr}[C=c]
+$$</p>
+<p>等价性可用Bayes定理证明。</p>
+<p>初次之外，可以使用完美不可区分性(Perfect Indistinguishability)表示完善保密性：方案是完善保密的，当且仅当 $\forall m_0,m_1\in\mathcal{M}$，有</p>
+<p>$$
+\mathrm{Pr}[C=c|M=m_0]=\mathrm{Pr}[C=c|M=m_1]
+$$</p>
+<p>敌手不可取分性(Adversarial Indistinguishability)定义：完善保密当且仅当</p>
+<p>$$
+\mathrm{Pr}[\mathrm{PrivK}_{\mathcal{A},\Pi}^{\mathrm{eav}}=1]=1/2
+$$</p>
+<h5>完善保密的性质与Shannon定理</h5>
+<p>完善保密必然是 $|\mathcal{K}|\geq|\mathcal{M}|$的，也就是密钥空间的基数大于明文空间的基数。</p>
+<p>如果 $|\mathcal{K}|=|\mathcal{M}|=|\mathcal{C}|$，则当且仅当下列条件成立时方案完善保密：(1)任意密钥 $k\in\mathcal{K}$都是 $1/|\mathcal{K}|$概率。(2)对任意明文 $m\in\mathcal{M}$和密文 $c\in\mathcal{C}$，存在唯一的 $k\in\mathcal{K}$ 使得 $\mathrm{Enc}_k(m)=c$。</p>
+<h3>PKE部分</h3>
+<h5>对称密钥加密/私钥加密(Private Key Encryption,PKE)</h5>
+<p>一个PKE加密方案 $(\mathrm{Gen,Enc,Dec})$均是多项式时间算法：</p>
+<p>(1) $\mathrm{Gen}(1^n)$输出 $k$，WLOG，我们令 $|k|\geq n$。</p>
+<p>(2) $\mathrm{Enc}_k(m)=c\Leftrightarrow\mathrm{Dec}_k(c)=m,m\in{0,1}^{\ast}$</p>
+<p>如果该方案满足对 $k\leftarrow\mathrm{Gen}(1^n)$，算法 $\mathrm{Enc}_k(\sim)$只对 ${0,1}^{l(n)}$有定义，则称该方案消息长度为定长 $l(n)$。</p>
+<h5>窃听者存在情况下的不可区分性(Indistinguishability in the Presence of an Eavesdropper,EAV-Secure)</h5>
+<p>对任意多PPT敌手 $\mathcal{A}$，有</p>
+<p>$$
+\mathrm{Pr}[\mathrm{PrivK}_{\mathcal{A},\Pi}^{\mathrm{eav}}(n)=1]\leq 1/2+\mathrm{negl}(n)
+$$</p>
+<p>则称该方案具备窃听者存在情况下的不可区分性。这一定义又称作语义安全。该性质存在一个等价表述：如果我们使用 $\mathrm{OutputPrivK}_{\mathcal{A},\Pi}^{\mathrm{eav}}(n,b)$表示 $\mathcal{A}$给出的 $b'$，则窃听者存在下的不可区分可表示为</p>
+<p>$$
+
+|\mathrm{Pr}[\mathrm{OutputPrivK}_{\mathcal{A},\Pi}^{\mathrm{eav}}(n,0)=1]-\mathrm{Pr}[\mathrm{OutputPrivK}_{\mathcal{A},\Pi}^{\mathrm{eav}}(n,1)=1]|\leq\mathrm{negl}(n)
+
+$$</p>
+<h5>EAV-Secure的性质</h5>
+<p>设 $m[i]$表示 $m$的第 $i$号bit，若 $i$索引不存在则为 $0$。若PKE方案在EAV-Secure，则对任意PPT敌手 $\mathcal{A}$都是(我们使用 $\mathcal{A}(\sim)$表示 $\mathcal{A}$基于输入 $\sim$的攻击结果)</p>
+<p>$$
+\mathrm{Pr}[\mathcal{A}(1^n,\mathrm{Enc}_k(m))=m[i]]\leq 1/2+\mathrm{negl}(n)
+$$</p>
+<p>EAV-Secure的方案对任意PPT  $\mathcal{A}$，存在另一个PPT $\mathcal{A}'$使得对任意多项式的可计算函数 $f$，有效可采样集合 $S$存在</p>
+<p>$$
+|\mathrm{Pr}[\mathcal{A}(1^n,\mathrm{Enc}_k(m))=f(m)]-\mathrm{Pr}[\mathcal{A}'(1^n)=f(m)]|\leq\mathrm{negl}(n)
+$$</p>
+<p>其中 $m$从 $S\cap{0,1}^n$中均匀选取。</p>
+<h5>窃听者存在下语义安全(Semantically Secure in the Presence of an Eavesdropper,EAV-Semantically Secure)</h5>
+<p>一个方案是EAV-语义安全的，如果对任意PPT算法 $\mathcal{A}$，存在PPT算法 $\mathcal{A}'$，对任意有效可采样分布 $X_1,\dots$以及所有多项式可计算 $f,h$，有</p>
+<p>$$
+|\mathrm{Pr}[\mathcal{A}(1^n,\mathrm{Enc}_k(m),h(m))=f(m)]-\mathrm{Pr}[\mathcal{A}'(1^n,h(m))=f(m)]|\leq\mathrm{negl}(n)
+$$</p>
+<p>其中 $m$根据分布 $X_n$选取。一个PKE方案是EAV-Secure，当且仅当其EAV-语义安全。</p>
+<h5>伪随机发生器(Pseudorandom Generator,PRG)</h5>
+<p>令 $l(n)&amp;gt;n$为多项式， $G:{0,1}^n\to{0,1}^{l(n)}$为一个算法，如果对任何PPT的区分器$D$均有</p>
+<p>$$
+|\mathrm{Pr}[D(r)=1]-\mathrm{Pr}[D(G(s))=1]|\leq\mathrm{negl}(n)
+$$</p>
+<p>则称 $G$是一个PRG，其中 $s$从 ${0,1}^n$中， $r$从 ${0,1}^{l(n)}$均匀随机选取。</p>
+<p>如果 $G$是一个PRG，则以下方案是EAV-Secure的：</p>
+<p>$\mathrm{Gen}$:输入 $1^n$，均匀选择 $k\leftarrow{0,1}^n$; $\mathrm{Enc}_k(m)=G(k)\oplus m$; $\mathrm{Dec}_k(c)=G(k)\oplus c$</p>
+<p>一个确定多项式时间算法 $G$是变长PRG，如果：<br>
+(1)令 $s$是字符串，则 $G(s,1^l)$输出长度为 $l$</p>
+<p>(2)对任意 $s,l&amp;lt;l'$，有 $G(s,1^l)$是 $G(s,1^{l'})$的前缀</p>
+<p>(3)定义 $G_l(s)=G(s,1^{l(|s|)})$</p>
+<p>称扩展因子为 $l$。</p>
+<h5>伪随机函数(Pseudorandom Function,PRF)</h5>
+<p>设 $F_k(x):{0,1}^{\ast}\times{0,1}^{\ast}\to{0,1}^{\ast}$具有保留长度性质 $|F_k(x)|=|x|=|k|$，如果存在多项式时间区分器 $D$，有</p>
+<p>$$
+|\mathrm{Pr}[D^{F_k(\sim)}(1^n)=1]-\mathrm{Pr}[D^{f(\sim)}(1^n)=1]|\leq\mathrm{negl}
+$$</p>
+<p>则称 $F$是PRF。其中 $k\leftarrow{0,1}^n$随机选择，$D^{f}$代表$D$可以调用函数 $f$的Oracle， $f:{0,1}^n\to{0,1}^n$随机选取。</p>
+<p>如果对于每一个 $k$， $F_k(\sim)$是单射，并且逆 $F_k^{-1}$也是多项式时间的，则称为伪随机(Pseudorandom Permutation,PRP)。若将上式改为</p>
+<p>$$
+|\mathrm{Pr}[D^{F_k(\sim),F_k^{-1}(\sim)}(1^n)=1]-\mathrm{Pr}[D^{f(\sim),f^{-1}(\sim)}(1^n)=1]|\leq\mathrm{negl}
+$$</p>
+<p>则称 $F$为强PRP。</p>
+<h5>多加密的安全性(Security for Multiple Encryption)</h5>
+<p>一个方案是窃听者存在下不可区分多次加密的，如果</p>
+<p>$$
+\mathrm{Pr}[\mathrm{PrivK}_{\mathcal{A},\Pi}^{\mathrm{mult}}(n)]\leq 1/2+\mathrm{negl}(n)
+$$</p>
+<p>存在方案，是EAV-Secure的，但是不是EAV-Multi Secure的。事实上，若 $\mathrm{Enc}$是一个密钥和消息的确定的函数，则方案无论如何不具备EAV-Multi Secure。所以，可以使用流密码解决这个问题。</p>
+<h5>CPA/CCA Security</h5>
+<p>一个方案是CPA-Secure的，如果</p>
+<p>$$
+\mathrm{Pr}[\mathrm{PrivK}_{\mathcal{A},\Pi}^{\mathrm{cpa}}(n)=1]\leq 1/2+\mathrm{negl}
+$$</p>
+<p>类似可以定义CPA加密安全。类似可以使用 $\mathrm{PrivK}_{\mathcal{A},\Pi}^{\mathrm{cca}}(n)$定义CCA-Secure。</p>
+<h5>基于PRF的CPA-Secure加密</h5>
+<p>构造一个方案：令 $F$为PRF， $\mathrm{Gen}(1^n):k\leftarrow{0,1}^n$均匀选取；</p>
+<p>$r\leftarrow{0,1},\mathrm{Enc}_k(m)=(r,F_k(r)\oplus m)$; $\mathrm{Dec}_k(r,s)=F_k(r)\oplus s$</p>
+<p>可以证明，若 $F$符合PRF的定义，则该构造方案作为消息长度为 $n$的定长PKE方案，是CPA-Secure。</p>
+<p>3</p></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://blackjunmachina-star.github.io/BlackJunMa.github.io">Blog Title</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行 "+diffDay+" 天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.disabled=true;
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","blackjunmachina-star/BlackJunMa.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+
+
+</script>
+<script>MathJax = {tex: {inlineMath: [["$", "$"]]}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</html>
