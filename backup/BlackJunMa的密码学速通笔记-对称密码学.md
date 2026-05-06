@@ -66,7 +66,7 @@
 
 ##### 完善保密(Perfectly Secret)的定义
 
-一个方案 $(\mathrm{Gen,Enc,Dec})$是完善保密的，如果对于任意明文空间 $\mathcal{M}$的分布，任意的明文 $m\in\mathcal{M}$，以及任意的密文 $c\in\mathcal{C},\mathrm{Pr}[C]>0$，
+一个方案 $(\mathrm{Gen,Enc,Dec})$是完善保密的，如果对于任意明文空间 $\mathcal{M}$的分布，任意的明文 $m\in\mathcal{M}$，以及任意的密文 $c\in\mathcal{C}, \mathrm{Pr}[C]>0$，
 
 $$
 \mathrm{Pr}[M=m\|C=c]=\mathrm{Pr}[M=m]
@@ -154,7 +154,7 @@ $$
 
 ##### 伪随机发生器(Pseudorandom Generator,PRG)
 
-令 $l(n)>n$为多项式， $G:\{0,1\}^n\to\{0,1\}^{l(n)}$为一个算法，如果对任何PPT的区分器$D$均有
+令 $l(n)>n$ 为多项式， $G:\{0,1\}^n\to\{0,1\}^{l(n)}$为一个算法，如果对任何PPT的区分器$D$均有
 
 $$
 |\mathrm{Pr}[D(r)=1]-\mathrm{Pr}[D(G(s))=1]|\leq\mathrm{negl}(n)
@@ -169,7 +169,7 @@ $\mathrm{Gen}$:输入 $1^n$，均匀选择 $k\leftarrow\{0,1\}^n$; $\mathrm{Enc}
 一个确定多项式时间算法 $G$是变长PRG，如果：
 (1)令 $s$是字符串，则 $G(s,1^l)$输出长度为 $l$
 
-(2)对任意 $s,l<l'$，有 $G(s,1^l)$是 $G(s,1^{l'})$的前缀
+(2)对任意 $s, l<l'$，有 $G(s, 1^l)$是 $G(s, 1^{l'})$的前缀
 
 (3)定义 $G_l(s)=G(s,1^{l(|s|)})$
 
