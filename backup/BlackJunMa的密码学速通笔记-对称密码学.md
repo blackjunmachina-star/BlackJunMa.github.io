@@ -323,7 +323,28 @@ $$
 
 ##### Parity与Correlation
 
-一个bit串的parity是由其若干个bit的异或组成的二元Boolean函数，每一个parity $f(x)$都可以使用一个 $n$元 $\mathbb{F}_2$-向量 $w$来表示，具体表示形式为内积 $f(x)=w^Tx$。
+一个bit串的parity是由其若干个bit的异或组成的二元Boolean函数，每一个parity $f(x)$都可以使用一个 $n$元 $\mathbb{F}_2$-向量 $w$来表示，具体表示形式为内积 $f(x)=w^Tx$。这里的 $w$称作掩码。
+
+两个二元Boolean函数 $f,g$的Correlation为
+
+$$ C(f,g)=\mathrm{Pr}[f(x)=g(x)]-\mathrm{Pr}[f(x)\neq g(x)]$$
+
+Correlation的取值在 $-1,1$之间，若其不为 $0$则称两个函数相关。
+
+##### Walsh-Hadamard Transformation(WHT)
+
+我们定义一个二元Boolean函数 $f(x)$的Walsh-Hadamard Transformation为
+
+$$\hat{f}(w)=\sum_{a\in\mathbb{F}_2^n}(-1)^{f(x)\oplus w^Tx}$$
+
+变换结果 $\hat{f}(w)$ 实际上反映了布尔函数 $f$ 与特定的线性函数 $w^Tx$ 之间的相关程度。在线性密码分析中，攻击者需要找到相关性绝对值尽可能大的线性近似。
+
+##### 相关矩阵
+
+每一个Boolean函数 $h:\mathbb{F}_2^n\to\mathbb{F}_2^m$都可以定义一个 $2^m\times 2^n$相关矩阵，设 $u\in\mathbb{F}_2^m,w\in\mathbb{F}_2^n$，定义该矩阵的 $(u,w)$元为
+$$C_{u,w}^{(h)}=C(u^Th(a),w^Ta)$$
+可以证明，Boolean函数的复合对应相关矩阵乘积 $C^{(f\circ g)}=C^{(f)}C^{(g)}$，而对于Boolean置换，存在逆关系 $C^{(f^{-1})}=(C^{(f)})^{-1}=(C^{(f)})^T$。
+
 
 
 
