@@ -315,6 +315,16 @@ $$
 
 (3) $\mathrm{Vrfy}:$直接验证 $\mathrm{Mac}_k(m)$是否为 $t$。
 
+### 差分分析
+
+##### Boolean函数
+
+一个Boolean函数，指 $\mathbb{F}_2^{n}\to\mathbb{F}_2^m$的一个映射。如果 $m=1$，我们称该函数为二元Boolean函数。如果 $m=n$，则称其为一个Boolean变换。可逆的Boolean变换称作Boolean置换。
+
+##### Parity与Correlation
+
+一个bit串的parity是由其若干个bit的异或组成的二元Boolean函数，每一个parity $f(x)$都可以使用一个 $n$元 $\mathbb{F}_2$-向量 $w$来表示，具体表示形式为内积 $f(x)=w^Tx$。
+
 
 
 
