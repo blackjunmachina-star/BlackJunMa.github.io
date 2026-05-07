@@ -299,8 +299,10 @@ $$</p>
 <p>$$\mathcal{W}(f\oplus g)=\mathcal{W}(f)\ast\mathcal{W}(g),\mathcal{W}(fg)=\frac{1}{2}(\delta(w)+\mathcal{W}(f)+\mathcal{W}(g)-\mathcal{W}(f\oplus g))$$</p>
 <h5>相关矩阵</h5>
 <p>每一个Boolean函数 $h:\mathbb{F}_2^n\to\mathbb{F}_2^m$都可以定义一个 $2^m\times 2^n$相关矩阵，设  $u\in\mathbb{F}_2^m,w\in\mathbb{F}_2^n$，定义该矩阵的 $(u,w)$元为</p>
-<p>$$C_{u,w}^{(h)}=C(u^Th(a),w^Ta)$$</p>
-<p>可以证明，Boolean函数的复合对应相关矩阵乘积 $C^{(f\circ g)}=C^{(f)}C^{(g)}$，而对于Boolean置换，存在逆关系 $C^{(f^{-1})}=(C^{(f)})^{-1}=(C^{(f)})^T$。</p></div>
+<p>$$C_{u,w}^{(h)}=C(u^Th(x),w^Tx)$$</p>
+<p>第 $u$行是二元Boolean函数 $u^Th$的WHT。可以证明，Boolean函数的复合对应相关矩阵乘积 $C^{(f\circ g)}=C^{(f)}C^{(g)}$，而对于Boolean置换，存在逆关系 $C^{(f^{-1})}=(C^{(f)})^{-1}=(C^{(f)})^T$，即Boolean置换的相关矩阵是一个正交矩阵，相关矩阵可逆当且仅当Boolean函数是双射，当且仅当每一个输入parity和输出parity与 $0$或者 $1$的相关性是 $0$。除此之外，相关矩阵具有性质</p>
+<p>$$C_{u\oplus v,x}=\sum_wC_{u,w\oplus x}C_{v,w},u,v,x\in\mathbb{F}_2^n$$</p>
+<p>可以计算一些特殊的相关矩阵：如果 $h(x)=x\oplus y$，则 $C_{u,v}=\delta_{u,v}\cdot(-1)^{u^Ty}$;如果 $h(x)=Mx,M$为 $m\times n$的 $\mathbb{F}_2$-矩阵，则 $C_{u,w}=\mathbb{1}[M^Tu=w]$。</p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
