@@ -343,9 +343,19 @@ $$\langle f,g\rangle=\sum_{a\in\mathbb{F}_2^n}(-1)^{f(a)\oplus g(a)}$$
 
 我们定义一个二元Boolean函数 $f(x)$的Walsh-Hadamard Transformation为
 
-$$\hat{f}(w)=\sum_{a\in\mathbb{F}_2^n}(-1)^{f(x)\oplus w^Tx}$$
+$$\mathcal{W}f(w)=F(w)=2^{-n}\sum_{a\in\mathbb{F}_2^n}(-1)^{f(x)\oplus w^Tx}=C(f(x),w^Tx)$$
 
-变换结果 $\hat{f}(w)$ 实际上反映了布尔函数 $f$ 与特定的线性函数 $w^Tx$ 之间的相关程度。在线性密码分析中，攻击者需要找到相关性绝对值尽可能大的线性近似。
+变换结果 $F(w)$ 实际上反映了布尔函数 $f$ 与特定的线性函数 $w^Tx$ 之间的相关程度。在线性密码分析中，攻击者需要找到相关性绝对值尽可能大的线性近似。WHT的逆变换为
+
+$$(-1)^{f(x)}=\sum_{w}F(w)(-1)^{w^Tx}$$
+
+一个二元Boolean函数 $f$使用parity基表示的时候，相应的 parity $w^Tx$的系数为 $F(w)$。WHT具有和FT类似的Parseval公式
+
+$$\sum_wF^2(w)=1$$
+
+如果我们定义Boolean函数的卷积为 $\displaystyle (F\ast G)(w)=\sum_vF(v\oplus w)G(v)$，则WHT具有性质
+
+$$\mathcal{W}(f\oplus g)=\mathcal{W}(f)\ast\mathcal{W}(g),\mathcal{W}(fg)=\frac{1}{2}(\delta(w)+\mathcal{W}(f)+\mathcal{W}(g)-\mathcal{W}(f\oplus g))$$
 
 ##### 相关矩阵
 

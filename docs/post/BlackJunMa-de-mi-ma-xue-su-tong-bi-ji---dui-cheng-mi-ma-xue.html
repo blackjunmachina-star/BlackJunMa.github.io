@@ -290,8 +290,13 @@ $$</p>
 <p>则在该内积的意义下，我们可以使用基 $(-1)^{u^Ta},u\in\mathbb{F}_2^n$作为基，因为其满足关系 $\langle (-1)^{u^Ta},(-1)^{w^Ta}\rangle=2^n\delta_{u,w}$。</p>
 <h5>Walsh-Hadamard Transformation(WHT)</h5>
 <p>我们定义一个二元Boolean函数 $f(x)$的Walsh-Hadamard Transformation为</p>
-<p>$$\hat{f}(w)=\sum_{a\in\mathbb{F}_2^n}(-1)^{f(x)\oplus w^Tx}$$</p>
-<p>变换结果 $\hat{f}(w)$ 实际上反映了布尔函数 $f$ 与特定的线性函数 $w^Tx$ 之间的相关程度。在线性密码分析中，攻击者需要找到相关性绝对值尽可能大的线性近似。</p>
+<p>$$\mathcal{W}f(w)=F(w)=2^{-n}\sum_{a\in\mathbb{F}_2^n}(-1)^{f(x)\oplus w^Tx}=C(f(x),w^Tx)$$</p>
+<p>变换结果 $F(w)$ 实际上反映了布尔函数 $f$ 与特定的线性函数 $w^Tx$ 之间的相关程度。在线性密码分析中，攻击者需要找到相关性绝对值尽可能大的线性近似。WHT的逆变换为</p>
+<p>$$(-1)^{f(x)}=\sum_{w}F(w)(-1)^{w^Tx}$$</p>
+<p>一个二元Boolean函数 $f$使用parity基表示的时候，相应的 parity $w^Tx$的系数为 $F(w)$。WHT具有和FT类似的Parseval公式</p>
+<p>$$\sum_wF^2(w)=1$$</p>
+<p>如果我们定义Boolean函数的卷积为 $\displaystyle (F\ast G)(w)=\sum_vF(v\oplus w)G(v)$，则WHT具有性质</p>
+<p>$$\mathcal{W}(f\oplus g)=\mathcal{W}(f)\ast\mathcal{W}(g),\mathcal{W}(fg)=\frac{1}{2}(\delta(w)+\mathcal{W}(f)+\mathcal{W}(g)-\mathcal{W}(f\oplus g))$$</p>
 <h5>相关矩阵</h5>
 <p>每一个Boolean函数 $h:\mathbb{F}_2^n\to\mathbb{F}_2^m$都可以定义一个 $2^m\times 2^n$相关矩阵，设  $u\in\mathbb{F}_2^m,w\in\mathbb{F}_2^n$，定义该矩阵的 $(u,w)$元为</p>
 <p>$$C_{u,w}^{(h)}=C(u^Th(a),w^Ta)$$</p>
