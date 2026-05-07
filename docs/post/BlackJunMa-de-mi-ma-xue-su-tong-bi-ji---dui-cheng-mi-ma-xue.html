@@ -283,7 +283,11 @@ $$</p>
 <p>一个bit串的parity是由其若干个bit的异或组成的二元Boolean函数，每一个parity $f(x)$都可以使用一个 $n$元 $\mathbb{F}_2$-向量 $w$来表示，具体表示形式为内积 $f(x)=w^Tx$。这里的 $w$称作掩码。</p>
 <p>两个二元Boolean函数 $f,g$的Correlation为</p>
 <p>$$ C(f,g)=\mathrm{Pr}[f(x)=g(x)]-\mathrm{Pr}[f(x)\neq g(x)]$$</p>
-<p>Correlation的取值在 $-1,1$之间，若其不为 $0$则称两个函数相关。</p>
+<p>Correlation的取值在 $-1,1$之间，若其不为 $0$则称两个函数相关。每一个二元Boolean函数都对应一个频谱</p>
+<p>$$f(x)\leftrightarrow((-1)^{f(0)},\dots,(-1)^{f(2^n-1)})$$</p>
+<p>如果我们定义两个Boolean函数的内积为</p>
+<p>$$\langle f,g\rangle=\sum_{a\in\mathbb{F}_2^n}(-1)^{f(a)\oplus g(a)}$$</p>
+<p>则在该内积的意义下，我们可以使用基 $(-1)^{u^Ta},u\in\mathbb{F}<em>2^n$作为基，因为其满足关系 $\langle (-1)^{u^Ta},(-1)^{w^Ta}\rangle=2^n\delta</em>{u,w}$。</p>
 <h5>Walsh-Hadamard Transformation(WHT)</h5>
 <p>我们定义一个二元Boolean函数 $f(x)$的Walsh-Hadamard Transformation为</p>
 <p>$$\hat{f}(w)=\sum_{a\in\mathbb{F}_2^n}(-1)^{f(x)\oplus w^Tx}$$</p>

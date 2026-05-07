@@ -329,7 +329,15 @@ $$
 
 $$ C(f,g)=\mathrm{Pr}[f(x)=g(x)]-\mathrm{Pr}[f(x)\neq g(x)]$$
 
-Correlation的取值在 $-1,1$之间，若其不为 $0$则称两个函数相关。
+Correlation的取值在 $-1,1$之间，若其不为 $0$则称两个函数相关。每一个二元Boolean函数都对应一个频谱
+
+$$f(x)\leftrightarrow((-1)^{f(0)},\dots,(-1)^{f(2^n-1)})$$
+
+如果我们定义两个Boolean函数的内积为
+
+$$\langle f,g\rangle=\sum_{a\in\mathbb{F}_2^n}(-1)^{f(a)\oplus g(a)}$$
+
+则在该内积的意义下，我们可以使用基 $(-1)^{u^Ta},u\in\mathbb{F}_2^n$作为基，因为其满足关系 $\langle (-1)^{u^Ta},(-1)^{w^Ta}\rangle=2^n\delta_{u,w}$。
 
 ##### Walsh-Hadamard Transformation(WHT)
 
