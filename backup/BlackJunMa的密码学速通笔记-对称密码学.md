@@ -337,7 +337,7 @@ $$f(x)\leftrightarrow((-1)^{f(0)},\dots,(-1)^{f(2^n-1)})$$
 
 $$\langle f,g\rangle=\sum_{a\in\mathbb{F}_2^n}(-1)^{f(a)\oplus g(a)}$$
 
-则在该内积的意义下，我们可以使用基 $(-1)^{u^Ta},u\in\mathbb{F}_2^n$作为基，因为其满足关系 $\langle (-1)^{u^Ta},(-1)^{w^Ta}\rangle=2^n\delta_{u,w}$。
+则在该内积的意义下，我们可以使用基 $(-1)^{u^Ta},u\in\mathbb{F}\_2^n$作为基，因为其满足关系 $\langle (-1)^{u^Ta},(-1)^{w^Ta}\rangle=2^n\delta\_{u,w}$。
 
 ##### Walsh-Hadamard Transformation(WHT)
 
