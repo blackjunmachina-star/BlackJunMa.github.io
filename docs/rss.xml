@@ -1,5 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>BlackJunMa</title><link>https://blackjunmachina-star.github.io/BlackJunMa.github.io</link><description>马哥！</description><copyright>BlackJunMa</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/275426830?v=4&amp;size=64</url><title>avatar</title><link>https://blackjunmachina-star.github.io/BlackJunMa.github.io</link></image><lastBuildDate>Wed, 06 May 2026 10:39:07 +0000</lastBuildDate><managingEditor>BlackJunMa</managingEditor><ttl>60</ttl><webMaster>BlackJunMa</webMaster><item><title>BlackJunMa的密码学速通笔记-对称密码学</title><link>https://blackjunmachina-star.github.io/BlackJunMa.github.io/post/BlackJunMa-de-mi-ma-xue-su-tong-bi-ji---dui-cheng-mi-ma-xue.html</link><description>### 攻击场景
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>BlackJunMa</title><link>https://blackjunmachina-star.github.io/BlackJunMa.github.io</link><description>马哥！</description><copyright>BlackJunMa</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/275426830?v=4&amp;size=64</url><title>avatar</title><link>https://blackjunmachina-star.github.io/BlackJunMa.github.io</link></image><lastBuildDate>Sun, 10 May 2026 00:32:46 +0000</lastBuildDate><managingEditor>BlackJunMa</managingEditor><ttl>60</ttl><webMaster>BlackJunMa</webMaster><item><title>BlackJunMa的密码学速通笔记--公钥密码学</title><link>https://blackjunmachina-star.github.io/BlackJunMa.github.io/post/BlackJunMa-de-mi-ma-xue-su-tong-bi-ji----gong-yao-mi-ma-xue.html</link><description>### 前置定义
+
+##### 公钥IND-CPA安全
+
+##### 公钥IND-CCA安全
+
+##### 公钥OW-CPA安全
+
+
+### DL为基础的算法
+
+可以定义三个基于离散对数的问题：
+
+##### 离散对数问题(Discrete Logarithm Problem,DLP)
+给定一个 $N$阶循环群 $G$的生成元 $g$以及元素 $h\in G$，找出整数 $x$使得 $g^x=h$，此时称 $x=\log_{G,g}h$为离散对数。</description><guid isPermaLink="true">https://blackjunmachina-star.github.io/BlackJunMa.github.io/post/BlackJunMa-de-mi-ma-xue-su-tong-bi-ji----gong-yao-mi-ma-xue.html</guid><pubDate>Sun, 10 May 2026 00:32:19 +0000</pubDate></item><item><title>BlackJunMa的密码学速通笔记-对称密码学</title><link>https://blackjunmachina-star.github.io/BlackJunMa.github.io/post/BlackJunMa-de-mi-ma-xue-su-tong-bi-ji---dui-cheng-mi-ma-xue.html</link><description>### 攻击场景
 
 目前根据严重程度可以对密码学攻击分为以下4个类别：
 
