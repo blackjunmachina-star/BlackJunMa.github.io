@@ -228,15 +228,15 @@ $$\alpha=a_0+\cfrac{1}{a_1+\cfrac{1}{a_2+\cfrac{1}{a_3+\dots}}}=[a_0,a_1,a_2,a_3
 
 一个数是有理数当且仅当其为有限的简单连分数。我们设第 $j$个渐进分数为 $p_j/q_j=[a_0,a_1,\dots,a_j]$，于是我们可以得到渐进分数的递归规律,类似于Euclid算法：
 
-$$\left[\begin{matrix}p_{i-1} & q_{i-1}\\ p_i & q_i\end{matrix}\right]=\left[\begin{matrix}0 & 1 \\ 1 & a_i\end{matrix}\right]\left[\begin{matrix}p_{i-2} & q_{i-2}\\ p_{i-1} & q_{i-1}\end{matrix}\right]$$
+$$\left[\begin{matrix}p_{i-1} & q_{i-1} \\\\ p_i & q_i\end{matrix}\right]=\left[\begin{matrix}0 & 1 \\\\ 1 & a_i\end{matrix}\right]\left[\begin{matrix}p_{i-2} & q_{i-2}\\\\ p_{i-1} & q_{i-1}\end{matrix}\right]$$
 
 这一关系说明，如果 $|\alpha-p/q|\lt 1/2q^2$，则 $p/q$必然为一个 $\alpha$的渐进分数。
 
-假设 $d<N^{1/4}/3$，设$ed=1+k\phi[N]$，于是
+假设 $d\lt N^{1/4}/3$，设$ed=1+k\phi[N]$，于是
 
 $$\left|\frac{e}{\phi[N]}-\frac{k}{d}\right|=\frac{1}{d\phi[N]}$$
 
-考虑到 $|N-\phi[N]|<3\sqrt{N}$，有
+考虑到 $|N-\phi[N]|\lt 3\sqrt{N}$，有
 
 $$\left|\frac{e}{N}-\frac{k}{d}\right|\leq\frac{3k}{\sqrt{N}d}\lt\frac{1}{2d^2}$$
 
