@@ -122,7 +122,7 @@ $$x=(u_{2i}-u_i)(v_i-v_{2i})^{-1}\mathrm{mod} N$$
 
 ##### 双密钥El-Gamal方案
 
- $(G,q,g)\leftarrow\mathcal{G}(1^n)$:$G=\langle g\rangle,|G|=q,w\leftarrow(\mathbb{Z}/q\mathbb{Z})^{\times},\hat{g}=g^w$.
+ $(G,q,g)\leftarrow\mathcal{G}(1^n)$: $G=\langle g\rangle,|G|=q,w\leftarrow(\mathbb{Z}/q\mathbb{Z})^{\times},\hat{g}=g^w$.
  $(\mathrm{pk,sk})\leftarrow\mathrm{Gen}(1^n):x_1,x_2\leftarrow\mathbb{Z}/q\mathbb{Z},e=g^{x_1}\hat{g}^{x_2},\mathrm{pk}=(G,q,g,\hat{g},e),\mathrm{sk}=(x_1,x_2)$.
 
  $(a,\hat{a},c)\leftarrow\mathrm{Enc}_{\mathrm{pk}}(m):u\leftarrow\mathbb{Z}/q\mathbb{Z},a=g^{u},\hat{a}=\hat{g}^u,c=me^u$
