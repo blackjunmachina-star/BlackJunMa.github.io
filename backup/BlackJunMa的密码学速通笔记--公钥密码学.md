@@ -67,3 +67,78 @@ $$f(x)=xg^{a_i}h^{b_i},x\in S_i$$
 $$x=(u_{2i}-u_i)(v_i-v_{2i})^{-1}\mathrm{mod} N$$
 
 该算法为 $O(N^{1/2}\log N)$的。
+
+基于DLP的困难性，我们定义Diffie-Hellman密钥交换协议和El-Gamal方案如下：
+
+##### Diffie-Hellman密钥交换协议
+
+(0) $G=\langle g\rangle,|G|=q$
+(1) $A:a\leftarrow\mathbb{Z}/q\mathbb{Z},h_1=g^a;A\to B: h_1$
+(2) $B:b\leftarrow\mathbb{Z}/q\mathbb{Z},h_2=g^b;B\to A: h_2$
+(3) $A:K=h_2^a;B:K=h_1^b$
+
+
+##### El-Gamal方案
+
+ $(G,q,g)\leftarrow\mathcal{G}(1^n)$:$G=\langle g\rangle,|G|=q$.
+ $(\mathrm{pk,sk})\leftarrow\mathrm{Gen}(1^n):x\leftarrow\mathbb{Z}/q\mathbb{Z},h=g^x,\mathrm{pk}=(G,q,g,h),\mathrm{sk}=x$.
+
+ $(c_1,c_2)\leftarrow\mathrm{Enc}_{\mathrm{pk}}(m):y\leftarrow\mathbb{Z}/q\mathbb{Z},c_1=g^{y},c_2=mh^y$
+
+ $m\leftarrow\mathrm{Dec}_{\mathrm{sk}}(c_1,c_2):m=(c_1^{-1})^xc_2$
+
+##### 若CDH难解，则El-Gamal方案是OW-CPA的
+
+令 $S,A$为仿真者和攻击者。假设El-Gamal不是OW-CPA的，于是$A$可以从 $(c_1,c_2)$复原出 $m=c_1^{-x}c_2$。
+
+(0) $S:(g,g^x,g^y),G=\langle g\rangle,1\lt x,y\lt q$
+(1) $S\to A:(\mathrm{pk}=(g,g^x),(c_1,c_2)=(g^y,h)),h\in G$
+(2) $A\to S:m=c_1^{-x}c_2=hg^{-xy}$
+(3) $S:hm^{-1}=g^{xy}$
+
+于是这说明 $S$在仅仅知道 $g,g^x,g^y$的情况下得知了 $g^{xy}$，即CDH易解。 $\square$
+
+##### 若DDH难解，则El-Gamal方案是IND-CPA的
+
+假设El-Gamal不是IND-CPA的。
+
+(0) $S:(g,g^x,g^y,g^z),G=\langle g\rangle,1\lt x,y,z\lt q$
+(1) $S\to A:\mathrm{pk}=(g,g^x)$
+(2) $A\to S:m_0,m_1$
+(3) $S:b\leftarrow\{0,1\},c_1=g^y,c_2=g^zm_b$
+(4) $S\to A:c^{\ast}=(c_1,c_2)$
+(5) $A\to S:b'$
+
+由于El-Gamal在假设中不是IND-CPA， $A$得到 $b'=b$在 $g^{z}=g^{xy}$的时候，否则 $A$不能在猜测 $b$的时候获得优势，即DDH易解。
+
+除此之外，El-Gamal无论如何不是IND-CCA安全的，设 $C,A$为挑战者和攻击者，假设 $A$可以通过 $C$在选取测试明文前后调用 $\mathrm{Dec}$ Oracle，但不能直接输入测试密文 $c^{\ast}$，则
+
+(1) $C\to A:c^{\ast}=(g^y,h^ym_b)$
+(2) $A\to C:(g^zg^y,h^zh^ym_b)$
+(3) $C\to A:m_b$
+
+由此 $\mathrm{Pr}[\mathrm{PubK}^{\mathrm{cca}}_{A,\Pi}=1]=1$。
+
+
+##### 双密钥El-Gamal方案
+
+ $(G,q,g)\leftarrow\mathcal{G}(1^n)$:$G=\langle g\rangle,|G|=q,w\leftarrow(\mathbb{Z}/q\mathbb{Z})^{\times},\hat{g}=g^w$.
+ $(\mathrm{pk,sk})\leftarrow\mathrm{Gen}(1^n):x_1,x_2\leftarrow\mathbb{Z}/q\mathbb{Z},e=g^{x_1}\hat{g}^{x_2},\mathrm{pk}=(G,q,g,\hat{g},e),\mathrm{sk}=(x_1,x_2)$.
+
+ $(a,\hat{a},c)\leftarrow\mathrm{Enc}_{\mathrm{pk}}(m):u\leftarrow\mathbb{Z}/q\mathbb{Z},a=g^{u},\hat{a}=\hat{g}^u,c=me^u$
+
+ $m\leftarrow\mathrm{Dec}_{\mathrm{sk}}(a,\hat{a},c):m=c(a^{x_1}\hat{a}^{x_2})^{-1}$.
+
+##### 若DDH假设成立，则双密钥El-Gamal方案是IND-CPA安全的。
+
+假设El-Gamal不是IND-CPA的。
+
+(0) $S:(g,g^x,g^y,g^z),G=\langle g\rangle,1\lt x,y,z\lt q$
+(1) $S\to A:\mathrm{pk}=(g,\hat{g},e)$
+(2) $A\to S:m_0,m_1$
+(3) $S:b\leftarrow\{0,1\},a=g^y,\hat{a}=g^z,c=a^{x_1}\hat{a}^{x_2}m_b$
+(4) $S\to A:c^{\ast}=(a,\hat{a},c)$
+(5) $A\to S:b'$
+
+由于假设中不是IND-CPA， $A$得到 $b'=b$在 $g^{z}=g^{xy}$的时候，否则 $A$不能在猜测 $b$的时候获得优势，即DDH易解。
+
