@@ -250,7 +250,7 @@ $$\left|\frac{e}{N}-\frac{k}{d}\right|\leq\frac{3k}{\sqrt{N}d}\lt\frac{1}{2d^2}$
 
 $$
 \begin{array}{l}
-\mathbf{Algorithm:}\text{Mod Squareroot } z \\
+\mathbf{Algorithm:}\text{ModSqrt}(z,p) \\
 \hline
 \textbf{Input: } z\in\mathrm{QR}(p) \\
 \textbf{Output: } x,x^2\equiv z\mod p\\

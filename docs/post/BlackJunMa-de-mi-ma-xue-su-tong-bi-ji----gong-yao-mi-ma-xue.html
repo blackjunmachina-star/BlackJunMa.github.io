@@ -241,7 +241,7 @@ $u\leftarrow\mathbb{Z}/q\mathbb{Z},a=g^u,\hat{a}=\hat{g}^u,c=me^u,v=H(a,\hat{a},
 <p>若有 $N=pq$已知，则可以在 $\mathbb{Z}/q\mathbb{Z},\mathbb{Z}/p\mathbb{Z}$中求得 $z$平方根之后再CRT。而计算 $a\in(\mathbb{Z}/p\mathbb{Z})^{\times}$的平方根可以使用以下算法：</p>
 <p>$$
 \begin{array}{l}
-\mathbf{Algorithm:}\text{Mod Squareroot } z \\
+\mathbf{Algorithm:}\text{ModSqrt}(z,p) \\
 \hline
 \textbf{Input: } z\in\mathrm{QR}(p) \\
 \textbf{Output: } x,x^2\equiv z\mod p\\
