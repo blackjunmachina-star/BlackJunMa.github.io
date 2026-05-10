@@ -238,7 +238,26 @@ $u\leftarrow\mathbb{Z}/q\mathbb{Z},a=g^u,\hat{a}=\hat{g}^u,c=me^u,v=H(a,\hat{a},
 <p>于是 $k/d$是 $e/N$的一个渐进分数，我们可以找到渐进分数的符合假设的分母，它就是要找到的 $d$。</p>
 <h5>模平方根问题</h5>
 <p>给定 $z=x^2\mod N$，求 $x$。</p>
-<p>若有 $N=pq$已知，则可以在 $\mathbb{Z}/q\mathbb{Z},\mathbb{Z}/p\mathbb{Z}$中求得 $z$平方根之后再CRT。而计算 $a\in(\mathbb{Z}/p\mathbb{Z})^{\times}$的平方根可以使用以下算法：</p></div>
+<p>若有 $N=pq$已知，则可以在 $\mathbb{Z}/q\mathbb{Z},\mathbb{Z}/p\mathbb{Z}$中求得 $z$平方根之后再CRT。而计算 $a\in(\mathbb{Z}/p\mathbb{Z})^{\times}$的平方根可以使用以下算法：</p>
+<p>$$
+\begin{array}{l}
+\mathbf{Algorithm:}\text{Mod Squareroot } z \\
+\hline
+\textbf{Input: } z\in\mathrm{QR}(p) \\
+\textbf{Output: } x,x^2\equiv z\mod p\\
+\hline
+1: \textbf{if } p\equiv 3\mod 4 \\
+2: \quad \textbf{Return } a^{(p+1)/4}\mod p\\
+3: \quad \textbf{else }\\
+4: \quad \quad b\leftarrow (\mathbb{Z}/p\mathbb{Z})\backslash\mathrm{QR}(p),i\leftarrow(p-1)/2,j\leftarrow 0\\
+5: \quad \quad \textbf{while } i\equiv 0\mod 2 \\
+6: \quad \quad \quad i \leftarrow i/2,j\leftarrow j/2 \\
+7: \quad \quad \quad \textbf{if } a^ib^j\equiv -1\mod p\\
+8: \quad \quad \quad \quad j\leftarrow j+(p-1)/2\\
+9: \quad \quad \textbf{Return } a^{(i+1)/2}b^{j/2}\mod p \\
+\hline
+\end{array}
+$$</p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>

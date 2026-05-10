@@ -247,3 +247,23 @@ $$\left|\frac{e}{N}-\frac{k}{d}\right|\leq\frac{3k}{\sqrt{N}d}\lt\frac{1}{2d^2}$
 给定 $z=x^2\mod N$，求 $x$。
 
 若有 $N=pq$已知，则可以在 $\mathbb{Z}/q\mathbb{Z},\mathbb{Z}/p\mathbb{Z}$中求得 $z$平方根之后再CRT。而计算 $a\in(\mathbb{Z}/p\mathbb{Z})^{\times}$的平方根可以使用以下算法：
+
+$$
+\begin{array}{l}
+\mathbf{Algorithm:}\text{Mod Squareroot } z \\
+\hline
+\textbf{Input: } z\in\mathrm{QR}(p) \\
+\textbf{Output: } x,x^2\equiv z\mod p\\
+\hline
+1: \textbf{if } p\equiv 3\mod 4 \\
+2: \quad \textbf{Return } a^{(p+1)/4}\mod p\\
+3: \quad \textbf{else }\\
+4: \quad \quad b\leftarrow (\mathbb{Z}/p\mathbb{Z})\backslash\mathrm{QR}(p),i\leftarrow(p-1)/2,j\leftarrow 0\\
+5: \quad \quad \textbf{while } i\equiv 0\mod 2 \\
+6: \quad \quad \quad i \leftarrow i/2,j\leftarrow j/2 \\
+7: \quad \quad \quad \textbf{if } a^ib^j\equiv -1\mod p\\
+8: \quad \quad \quad \quad j\leftarrow j+(p-1)/2\\
+9: \quad \quad \textbf{Return } a^{(i+1)/2}b^{j/2}\mod p \\
+\hline
+\end{array}
+$$
