@@ -314,9 +314,9 @@ $r\leftarrow(\mathbb{Z}/N\mathbb{Z})^{\times},c_1\equiv r^e\mod N,c_2=H(r)\oplus
 <h5>IND-CCA的RSA方案</h5>
 <p>设 $(G^s,E^s,D^s)$为一个对称加密方案。</p>
 <p>$(\mathrm{pk,sk})=(N=pq,e;d)$</p>
-<p>$(c_1,c_2)\leftarrow\mathrm{Enc}<em>{\mathrm{pk}}(m),m\in{0,1}^{l(n)}:$<br>
-$r\leftarrow(\mathbb{Z}/N\mathbb{Z})^{\times},c_1\equiv r^e\mod N,c_2=E^s</em>{H(r)}(m),H:(\mathbb{Z}/N\mathbb{Z})^{\times}\to{0,1}^n$</p>
-<p>$m\leftarrow\mathrm{Dec}<em>{\mathrm{sk}}(c_1,c_2):r\equiv c_1^d\mod N,m=D^s</em>{H(r)}(c_2)$</p>
+<p>$(c_1,c_2)\leftarrow\mathrm{Enc}_{\mathrm{pk}}(m),m\in\{0,1\}^{l(n)}:$<br>
+$r\leftarrow(\mathbb{Z}/N\mathbb{Z})^{\times},c_1\equiv r^e\mod N,c_2=E^s_{H(r)}(m),H:(\mathbb{Z}/N\mathbb{Z})^{\times}\to{0,1}^n$</p>
+<p>$m\leftarrow\mathrm{Dec}_{\mathrm{sk}}(c_1,c_2):r\equiv c_1^d\mod N,m=D^s_{H(r)}(c_2)$</p>
 <p>若RSA问题困难且 $H$为随机谕言，$(G^s,E^s,D^s)$为IND-CCA的，则上述方案为IND-CCA的。</p>
 <h5>密钥封装(Key Encapsulation Mechanism,KEM)</h5>
 <p>一个KEM由以下部分组成：</p>
@@ -327,13 +327,13 @@ $r\leftarrow(\mathbb{Z}/N\mathbb{Z})^{\times},c_1\equiv r^e\mod N,c_2=E^s</em>{H
 <h6>KEM-DEM混合加密</h6>
 <p>设$\mathrm{DEM}=(G^s,E^s,D^s)$为一个对称加密方案， $(\mathrm{KEM.Gen,Encap,Decap})$为KEM，则可以定义以下的KEM-DEM混合加密方案</p>
 <p>$(\mathrm{pk,sk})\leftarrow\mathrm{Gen}(1^n): (\mathrm{pk,sk})=\mathrm{KEM.Gen}(1^n)$</p>
-<p>$(c_1,c_2)\leftarrow\mathrm{Enc}<em>{\mathrm{pk}}(m):\mathrm{Encap}(\mathrm{pk})=(c_1,k),c_2=E^s</em>{k}(m)$</p>
+<p>$(c_1,c_2)\leftarrow\mathrm{Enc}_{\mathrm{pk}}(m):\mathrm{Encap}(\mathrm{pk})=(c_1,k),c_2=E^s_{k}(m)$</p>
 <p>$m\leftarrow\mathrm{Dec}_{\mathrm{sk}}(c_1,c_2):k=\mathrm{Decap}(\mathrm{sk},c_1),m=D^s_k(c_2)$</p>
 <h5>使用OW-CPA构造IND-CCA的KEM</h5>
 <p>设$(\mathrm{Gen,Enc,Dec})$为一个OW-CPA的确定性公钥加密，$H$为Hash函数，$G$为密钥派生函数。</p>
 <p>$(\mathrm{pk,sk})\leftarrow\mathrm{KEM.Gen}(1^n):(\mathrm{pk,sk})=\mathrm{Gen}(1^n)$</p>
 <p>$(c,k)\leftarrow\mathrm{Encap}(\mathrm{pk}):r\leftarrow M,(c_1,c_2)=(\mathrm{Enc}_{\mathrm{pk}}(r),H(r)),k=G(r)$</p>
-<p>$k\leftarrow\mathrm{Decap}(c_1,c_2):r=\mathrm{Dec}<em>{\mathrm{sk}}(c_1),[(\mathrm{Enc}</em>{pk}(r)=c_1)\wedge c_2=H(r)]?G(r):\bot$</p></div>
+<p>$k\leftarrow\mathrm{Decap}(c_1,c_2):r=\mathrm{Dec}_{\mathrm{sk}}(c_1),[(\mathrm{Enc}_{pk}(r)=c_1)\wedge c_2=H(r)]?G(r):\bot$</p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>

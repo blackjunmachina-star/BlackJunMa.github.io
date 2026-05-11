@@ -368,10 +368,10 @@ $m\leftarrow\mathrm{Dec}_{\mathrm{sk}}(c_1,c_2):r\equiv c_1^d\mod N,m=H(r)\oplus
 
 $(\mathrm{pk,sk})=(N=pq,e;d)$
 
-$(c_1,c_2)\leftarrow\mathrm{Enc}_{\mathrm{pk}}(m),m\in\{0,1\}^{l(n)}:$
+$(c\_1,c\_2)\leftarrow\mathrm{Enc}\_{\mathrm{pk}}(m),m\in\\{0,1\\}^{l(n)}:$
 $r\leftarrow(\mathbb{Z}/N\mathbb{Z})^{\times},c_1\equiv r^e\mod N,c_2=E^s_{H(r)}(m),H:(\mathbb{Z}/N\mathbb{Z})^{\times}\to\{0,1\}^n$
 
-$m\leftarrow\mathrm{Dec}_{\mathrm{sk}}(c_1,c_2):r\equiv c_1^d\mod N,m=D^s_{H(r)}(c_2)$
+$m\leftarrow\mathrm{Dec}\_{\mathrm{sk}}(c\_1,c\_2):r\equiv c\_1^d\mod N,m=D^s\_{H(r)}(c_2)$
 
 若RSA问题困难且 $H$为随机谕言，$(G^s,E^s,D^s)$为IND-CCA的，则上述方案为IND-CCA的。
 
@@ -393,9 +393,9 @@ $k\leftarrow\mathrm{Decap}(\mathrm{sk},c)$
 
 $(\mathrm{pk,sk})\leftarrow\mathrm{Gen}(1^n): (\mathrm{pk,sk})=\mathrm{KEM.Gen}(1^n)$
 
-$(c_1,c_2)\leftarrow\mathrm{Enc}_{\mathrm{pk}}(m):\mathrm{Encap}(\mathrm{pk})=(c_1,k),c_2=E^s_{k}(m)$
+$(c\_1,c\_2)\leftarrow\mathrm{Enc}\_{\mathrm{pk}}(m):\mathrm{Encap}(\mathrm{pk})=(c\_1,k),c_2=E^s\_{k}(m)$
 
-$m\leftarrow\mathrm{Dec}_{\mathrm{sk}}(c_1,c_2):k=\mathrm{Decap}(\mathrm{sk},c_1),m=D^s_k(c_2)$
+$m\leftarrow\mathrm{Dec}\_{\mathrm{sk}}(c\_1,c\_2):k=\mathrm{Decap}(\mathrm{sk},c\_1),m=D^s_k(c\_2)$
 
 ##### 使用OW-CPA构造IND-CCA的KEM
 
@@ -405,5 +405,5 @@ $(\mathrm{pk,sk})\leftarrow\mathrm{KEM.Gen}(1^n):(\mathrm{pk,sk})=\mathrm{Gen}(1
 
 $(c,k)\leftarrow\mathrm{Encap}(\mathrm{pk}):r\leftarrow M,(c_1,c_2)=(\mathrm{Enc}_{\mathrm{pk}}(r),H(r)),k=G(r)$
 
-$k\leftarrow\mathrm{Decap}(c_1,c_2):r=\mathrm{Dec}_{\mathrm{sk}}(c_1),[(\mathrm{Enc}_{pk}(r)=c_1)\wedge c_2=H(r)]?G(r):\bot$
+$k\leftarrow\mathrm{Decap}(c_1,c_2):r=\mathrm{Dec}\_{\mathrm{sk}}(c_1),[(\mathrm{Enc}_{pk}(r)=c\_1)\wedge c\_2=H(r)]?G(r):\bot$
 
