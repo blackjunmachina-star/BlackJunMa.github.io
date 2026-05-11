@@ -267,3 +267,143 @@ $$
 \hline
 \end{array}
 $$
+
+若存在求模平方根的Oracle，则可以分解 $N=pq$。步骤如下：
+
+(1) $x\leftarrow\mathbb{Z}/N\mathbb{Z};z\equiv x^2\mod N$
+(2) $y\leftarrow\sqrt{z}\mod N$
+(3) $y\neq\pm x\mod N\Rightarrow[\gcd(x+y,N)\gt 1]\vee[\gcd(x-y,N)\gt 1]$
+
+也就是求模平方根问题和分解问题具有类似的复杂度。
+
+##### Rabin加密方案
+
+$(\mathrm{pk,sk})\leftarrow\mathrm{Gen}(1^n):\mathrm{pk}=N,\mathrm{sk}=(p,q),p,q\equiv 3\mod 4,N=pq$.
+
+$c\leftarrow\mathrm{Enc}_{\mathrm{pk}}(m):c\equiv m^2\mod N$
+
+$m\leftarrow\mathrm{Dec}_{\mathrm{sk}}(c):m^2\equiv c\mod N$
+
+该方案的解密利用了求素数模平方根，我们需要从 $4$个不同的解出的明文中选择一个。
+
+##### Rabin加密的OW-CPA安全性
+
+假设Rabin加密不是OW-CPA安全的。
+
+(1) $S:\mathrm{pk}=N,m\leftarrow(\mathbb{Z}/N\mathbb{Z})^{\times},c\equiv m^2\mod N$
+(2) $S\to A:(\mathrm{pk},c)$
+(3) $A\to S:m'$
+(4) $S:\gcd(m'-m,N)=p,q=N/p$.
+
+##### Hardcore Bit
+
+设 $f:\{0,1\}^{\ast}\to\{0,1\}^{\ast}$是单向函数， $h:\{0,1\}^{\ast}\to\{0,1\}$是一个多项式可计算的函数，如果对任意PPT的 $\mathcal{A}$,有
+
+$$\mathrm{Pr}[x\leftarrow\{0,1\}^n:\mathcal{A}(f(x))=h(x)]\leq\frac{1}{2}+\mathrm{negl}$$
+
+则称 $h$为一个 $f$的Hardcore Bit。单项函数都可以构造一个hardcore bit，该构造称作Goldreich-Levin定理：定义 $g(x,r)=(f(x),r),|x|=|r|,x=x_1\dots x_k,r=r_1\dots r_k$,
+
+$$B(x,r)=x_1r_1\oplus x_2r_2\oplus\dots\oplus x_kr_k$$
+
+则 $B$是 $g$的一个hardcore bit。
+
+##### 具有Hardcore的陷门函数族
+
+我们使用 $\mathrm{lsb}(x)$表示最低有效bit位。
+
+设 $N=pq,e$是一个RSA公钥，定义 $f:(\mathbb{Z}/N\mathbb{Z})^{\times}\to(\mathbb{Z}/N\mathbb{Z})^{\times},x\mapsto x^e\mod N$，则
+
+$$\mathrm{Pr}[x\leftarrow(\mathbb{Z}/N\mathbb{Z})^{\times}:\mathcal{A}(f(x))=\mathrm{lsb}(x)]\leq \frac{1}{2}+\mathrm{negl}$$
+即 $\mathrm{lsb}$是其hardcore。
+
+此外，对于Blum整数 $N=pq,p,q\equiv 3\mod 4$，定义 $f:x\mapsto x^2\mod N$，则$\mathrm{lsb}$也是该函数的hardcore。
+
+##### 基于陷门置换的加密方案
+
+以下使用 $f$为陷门函数，给定索引 $I$则可以计算$f_I:\mathcal{D}_I\to\mathcal{D}_I$，但 $f_I^{-1}$需要得到陷门 $t$才能容易计算。 $h$为一个hardcore。
+
+$(\mathrm{pk,sk})\leftarrow\mathrm{Gen}(1^n):\mathrm{pk}=I,\mathrm{sk}=t$
+
+$(y,m')\leftarrow\mathrm{Enc}_{\mathrm{pk}}(m),m\in\{0,1\}:x\leftarrow\mathcal{D}_I,y=f_I(x),m'=h_I(x)\oplus m$
+
+$m\leftarrow\mathrm{Dec}_{\mathrm{sk}}(y,m'): x=f^{-1}_I(y),m=h_I(x)\oplus m'$
+
+该方案只能加密单个bit，但是可以使用并联方式来加密多个bit $m=m_1\dots m_l$：
+
+$$x\leftarrow\mathcal{D}_I,x_{i+1}=f_I(x_i); c=(x_{l+1},h_I(x_1)\oplus m_I,\dots,h_I(x_l)\oplus m_l)$$
+
+##### 基于陷门置换的加密方案具有IND-CPA安全性
+
+令$S$为$\mathcal{A}_h$，即攻击hardcore $h$的敌手以及仿真者，$A$为攻击者；
+
+(0) $S:I,y=f_I(x),\mathrm{pk}=I$
+(1) $S\to A:\mathrm{pk}$
+(2) $A\to S:m_0,m_1$
+(3) $S:b,z\leftarrow\{0,1\},m'=z\oplus m_b$
+(4) $S\to A:(y,m')$
+(5) $A\to S:b';(b'=b)?z:\overline{z}$.
+
+在该过程中，攻击 $h$的优势为
+
+$$\mathrm{Pr}[\mathcal{A}_h(I,f_I(x))=h_I(x)]=\frac{1}{2}[\mathrm{Pr}[b'=b|z=h_I(x)]+\mathrm{Pr}[b'\neq b|z\neq h_I(x)]]$$
+
+也就是如果 $b$被猜出的优势不可忽略，则 $h$的攻击优势不可忽略。
+
+于是类似可以定义IND-CPA的RSA方案。
+
+##### IND-CPA的RSA方案
+
+$\mathrm{pk}=(N=pq,e),\mathrm{sk}=d$
+
+$(c_1,c_2)\leftarrow\mathrm{Enc}_{\mathrm{pk}}(m),m\in\{0,1\}^{l(n)}:$
+$r\leftarrow(\mathbb{Z}/N\mathbb{Z})^{\times},c_1\equiv r^e\mod N,c_2=H(r)\oplus m,H:(\mathbb{Z}/N\mathbb{Z})^{\times}\to\{0,1\}^{l(n)}$
+
+$m\leftarrow\mathrm{Dec}_{\mathrm{sk}}(c_1,c_2):r\equiv c_1^d\mod N,m=H(r)\oplus c_2$
+
+如果RSA问题困难且 $H$为随机谕言，则该方案是IND-CPA安全的。
+
+##### IND-CCA的RSA方案
+
+设 $(G^s,E^s,D^s)$为一个对称加密方案。
+
+$(\mathrm{pk,sk})=(N=pq,e;d)$
+
+$(c_1,c_2)\leftarrow\mathrm{Enc}_{\mathrm{pk}}(m),m\in\{0,1\}^{l(n)}:$
+$r\leftarrow(\mathbb{Z}/N\mathbb{Z})^{\times},c_1\equiv r^e\mod N,c_2=E^s_{H(r)}(m),H:(\mathbb{Z}/N\mathbb{Z})^{\times}\to\{0,1\}^n$
+
+$m\leftarrow\mathrm{Dec}_{\mathrm{sk}}(c_1,c_2):r\equiv c_1^d\mod N,m=D^s_{H(r)}(c_2)$
+
+若RSA问题困难且 $H$为随机谕言，$(G^s,E^s,D^s)$为IND-CCA的，则上述方案为IND-CCA的。
+
+##### 密钥封装(Key Encapsulation Mechanism,KEM)
+
+一个KEM由以下部分组成：
+
+$(\mathrm{pk,sk})\leftarrow\mathrm{KEM.Gen}(1^n)$
+
+$(c,k)\leftarrow\mathrm{Encap}(\mathrm{pk})$
+
+$k\leftarrow\mathrm{Decap}(\mathrm{sk},c)$
+
+即在生成私钥和公钥之后，使用 $\mathrm{Encap}$将公钥转化为文本 $c$和密钥 $k$，并且 $\mathrm{Decap}$可以通过私钥和 $c$复原出 $k$来。
+
+###### KEM-DEM混合加密
+
+设$\mathrm{DEM}=(G^s,E^s,D^s)$为一个对称加密方案， $(\mathrm{KEM.Gen,Encap,Decap})$为KEM，则可以定义以下的KEM-DEM混合加密方案
+
+$(\mathrm{pk,sk})\leftarrow\mathrm{Gen}(1^n): (\mathrm{pk,sk})=\mathrm{KEM.Gen}(1^n)$
+
+$(c_1,c_2)\leftarrow\mathrm{Enc}_{\mathrm{pk}}(m):\mathrm{Encap}(\mathrm{pk})=(c_1,k),c_2=E^s_{k}(m)$
+
+$m\leftarrow\mathrm{Dec}_{\mathrm{sk}}(c_1,c_2):k=\mathrm{Decap}(\mathrm{sk},c_1),m=D^s_k(c_2)$
+
+##### 使用OW-CPA构造IND-CCA的KEM
+
+设$(\mathrm{Gen,Enc,Dec})$为一个OW-CPA的确定性公钥加密，$H$为Hash函数，$G$为密钥派生函数。
+
+$(\mathrm{pk,sk})\leftarrow\mathrm{KEM.Gen}(1^n):(\mathrm{pk,sk})=\mathrm{Gen}(1^n)$
+
+$(c,k)\leftarrow\mathrm{Encap}(\mathrm{pk}):r\leftarrow M,(c_1,c_2)=(\mathrm{Enc}_{\mathrm{pk}}(r),H(r)),k=G(r)$
+
+$k\leftarrow\mathrm{Decap}(c_1,c_2):r=\mathrm{Dec}_{\mathrm{sk}}(c_1),[(\mathrm{Enc}_{pk}(r)=c_1)\wedge c_2=H(r)]?G(r):\bot$
+
