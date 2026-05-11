@@ -297,9 +297,9 @@ $m\leftarrow\mathrm{Dec}_{\mathrm{sk}}(c):m^2\equiv c\mod N$
 
 ##### Hardcore Bit
 
-设 $f:\{0,1\}^{\ast}\to\{0,1\}^{\ast}$是单向函数， $h:\{0,1\}^{\ast}\to\{0,1\}$是一个多项式可计算的函数，如果对任意PPT的 $\mathcal{A}$,有
+设 $f:\\{0,1\\}^{\ast}\to\\{0,1\\}^{\ast}$是单向函数， $h:\\{0,1\\}^{\ast}\to\\{0,1\\}$是一个多项式可计算的函数，如果对任意PPT的 $\mathcal{A}$,有
 
-$$\mathrm{Pr}[x\leftarrow\{0,1\}^n:\mathcal{A}(f(x))=h(x)]\leq\frac{1}{2}+\mathrm{negl}$$
+$$\mathrm{Pr}[x\leftarrow\\{0,1\\}^n:\mathcal{A}(f(x))=h(x)]\leq\frac{1}{2}+\mathrm{negl}$$
 
 则称 $h$为一个 $f$的Hardcore Bit。单项函数都可以构造一个hardcore bit，该构造称作Goldreich-Levin定理：定义 $g(x,r)=(f(x),r),|x|=|r|,x=x_1\dots x_k,r=r_1\dots r_k$,
 
@@ -355,7 +355,7 @@ $$\mathrm{Pr}[\mathcal{A}_h(I,f_I(x))=h_I(x)]=\frac{1}{2}[\mathrm{Pr}[b'=b|z=h_I
 
 $\mathrm{pk}=(N=pq,e),\mathrm{sk}=d$
 
-$(c_1,c_2)\leftarrow\mathrm{Enc}_{\mathrm{pk}}(m),m\in\{0,1\}^{l(n)}:$
+$(c_1,c_2)\leftarrow\mathrm{Enc}_{\mathrm{pk}}(m),m\in\\{0,1\\}^{l(n)}:$
 $r\leftarrow(\mathbb{Z}/N\mathbb{Z})^{\times},c_1\equiv r^e\mod N,c_2=H(r)\oplus m,H:(\mathbb{Z}/N\mathbb{Z})^{\times}\to\{0,1\}^{l(n)}$
 
 $m\leftarrow\mathrm{Dec}_{\mathrm{sk}}(c_1,c_2):r\equiv c_1^d\mod N,m=H(r)\oplus c_2$
