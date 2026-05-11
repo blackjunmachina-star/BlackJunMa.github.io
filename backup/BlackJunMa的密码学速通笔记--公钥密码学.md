@@ -356,7 +356,7 @@ $$\mathrm{Pr}[\mathcal{A}_h(I,f_I(x))=h_I(x)]=\frac{1}{2}[\mathrm{Pr}[b'=b|z=h_I
 $\mathrm{pk}=(N=pq,e),\mathrm{sk}=d$
 
 $(c_1,c_2)\leftarrow\mathrm{Enc}_{\mathrm{pk}}(m),m\in\\{0,1\\}^{l(n)}:$
-$r\leftarrow(\mathbb{Z}/N\mathbb{Z})^{\times},c_1\equiv r^e\mod N,c_2=H(r)\oplus m,H:(\mathbb{Z}/N\mathbb{Z})^{\times}\to\{0,1\}^{l(n)}$
+$r\leftarrow(\mathbb{Z}/N\mathbb{Z})^{\times},c_1\equiv r^e\mod N,c_2=H(r)\oplus m,H:(\mathbb{Z}/N\mathbb{Z})^{\times}\to\\{0,1\\}^{l(n)}$
 
 $m\leftarrow\mathrm{Dec}_{\mathrm{sk}}(c_1,c_2):r\equiv c_1^d\mod N,m=H(r)\oplus c_2$
 
@@ -369,7 +369,7 @@ $m\leftarrow\mathrm{Dec}_{\mathrm{sk}}(c_1,c_2):r\equiv c_1^d\mod N,m=H(r)\oplus
 $(\mathrm{pk,sk})=(N=pq,e;d)$
 
 $(c\_1,c\_2)\leftarrow\mathrm{Enc}\_{\mathrm{pk}}(m),m\in\\{0,1\\}^{l(n)}:$
-$r\leftarrow(\mathbb{Z}/N\mathbb{Z})^{\times},c_1\equiv r^e\mod N,c_2=E^s_{H(r)}(m),H:(\mathbb{Z}/N\mathbb{Z})^{\times}\to\{0,1\}^n$
+$r\leftarrow(\mathbb{Z}/N\mathbb{Z})^{\times},c_1\equiv r^e\mod N,c_2=E^s_{H(r)}(m),H:(\mathbb{Z}/N\mathbb{Z})^{\times}\to\\{0,1\\}^n$
 
 $m\leftarrow\mathrm{Dec}\_{\mathrm{sk}}(c\_1,c\_2):r\equiv c\_1^d\mod N,m=D^s\_{H(r)}(c_2)$
 
