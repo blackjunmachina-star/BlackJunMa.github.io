@@ -421,8 +421,8 @@ $r\leftarrow(\mathbb{Z}/N\mathbb{Z})^{\times},c_1\equiv r^e\mod N,c_2=E^s_{H(r)}
 <p>(1) $\mathrm{sk}=(x_{1,0},x_{1,1},x_{2,0},x_{2,1},\dots,x_{l,0},x_{l,1})$<br>
 (2) $\mathrm{pk}=(y_{1,0},\dots,y_{l,1}),y_{i,j}=f(x_{i,j})$<br>
 (3) $m=m_1m_2\dots m_l\in{0,1}^l$<br>
-(4) $\sigma\leftarrow\mathrm{Sign}<em>{\mathrm{sk}}(m):\sigma=(x</em>{1,m_1},x_{2,m_2},\dots,x_{l,m_l})$<br>
-(5) $\mathrm{Vrfy}<em>{\mathrm{pk}}(m_1\dots m_l;\sigma=(x_1,\dots,x_l))=1\Leftrightarrow f(x_i)=y</em>{i,m_i},\forall 1\leq i\leq l$</p>
+(4) $\sigma\leftarrow\mathrm{Sign}_{\mathrm{sk}}(m):\sigma=(x_{1,m_1},x_{2,m_2},\dots,x_{l,m_l})$<br>
+(5) $\mathrm{Vrfy}_{\mathrm{pk}}(m_1\dots m_l;\sigma=(x_1,\dots,x_l))=1\Leftrightarrow f(x_i)=y_{i,m_i},\forall 1\leq i\leq l$</p>
 <p>Lamport一次签名的公钥和签名长，除此之外可以通过对比bit的方式得到 $\mathrm{sk}$的部分，例如：得知 $\mathrm{Sign}(000)=(x_{1,0},x_{2,0},x_{3,0});\mathrm{Sign}(111)=(x_{1,1},x_{2,1},x_{3,1})$。</p>
 <p>$f$的单向性可以证明 Lamport一次签名EUF-OTCMA安全。 $f$是单向置换推出SUF-OTCMA安全。</p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>

@@ -548,8 +548,8 @@ $$\mathrm{Pr}[\mathrm{Vrfy}_{\mathrm{pk}}(m,\sigma)=1,m\notin\mathcal{Q}]<\mathr
 (1) $\mathrm{sk}=(x_{1,0},x_{1,1},x_{2,0},x_{2,1},\dots,x_{l,0},x_{l,1})$
 (2) $\mathrm{pk}=(y_{1,0},\dots,y_{l,1}),y_{i,j}=f(x_{i,j})$
 (3) $m=m_1m_2\dots m_l\in\{0,1\}^l$
-(4) $\sigma\leftarrow\mathrm{Sign}_{\mathrm{sk}}(m):\sigma=(x_{1,m_1},x_{2,m_2},\dots,x_{l,m_l})$
-(5) $\mathrm{Vrfy}_{\mathrm{pk}}(m_1\dots m_l;\sigma=(x_1,\dots,x_l))=1\Leftrightarrow f(x_i)=y_{i,m_i},\forall 1\leq i\leq l$
+(4) $\sigma\leftarrow\mathrm{Sign}\_{\mathrm{sk}}(m):\sigma=(x\_{1,m\_1},x\_{2,m\_2},\dots,x\_{l,m\_l})$
+(5) $\mathrm{Vrfy}\_{\mathrm{pk}}(m\_1\dots m\_l;\sigma=(x\_1,\dots,x\_l))=1\Leftrightarrow f(x\_i)=y_{i,m\_i},\forall 1\leq i\leq l$
 
 Lamport一次签名的公钥和签名长，除此之外可以通过对比bit的方式得到 $\mathrm{sk}$的部分，例如：得知 $\mathrm{Sign}(000)=(x_{1,0},x_{2,0},x_{3,0});\mathrm{Sign}(111)=(x_{1,1},x_{2,1},x_{3,1})$。
 
