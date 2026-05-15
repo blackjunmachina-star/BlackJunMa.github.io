@@ -414,4 +414,143 @@ $k\leftarrow\mathrm{Decap}(c_1,c_2):r=\mathrm{Dec}\_{\mathrm{sk}}(c_1),[(\mathrm
  $(c,k)\mathrm{Encap}(\mathrm{pk}):r\leftarrow\mathbb{Z}/N\mathbb{Z},c=(r^2\mod N,H(r)),k=G(r)$
 
  $k\leftarrow\mathrm{Decap}(c=(c_1,c_2))$:
-若 $c_1\notin(\mathbb{Z}/N\mathbb{Z})^{\times 2}$，输出 $\bot$。否则，计算 $r_1,r_2,r_3,r_4$作为 $c_1\mod N$的平方根，若$H(r_i)\neq c_2$，则输出 $\bot$;若存在 $i,j$使得 $H(r_i)=H(r_j)=c_2$则输出 $\bot$;若对唯一的 $r_i$有 $H(r_i)=c_2$，则输出  $k=G(r_i)$。
+若 $c_1\notin(\mathbb{Z}/N\mathbb{Z})^{\times 2}$，输出 $\bot$。否则，计算 $r_1,r_2,r_3,r_4$作为 $c_1\mod N$的平方根，若 $H(r_i)\neq c_2$，则输出 $\bot$;若存在 $i,j$使得 $H(r_i)=H(r_j)=c_2$则输出 $\bot$;若对唯一的 $r_i$有 $H(r_i)=c_2$，则输出  $k=G(r_i)$。
+
+### CCA设计
+
+##### 非交互零知识(Non Interactive Zero Knowledge,NIZK)解决思路
+
+NIZK是一种特殊的密码学协议。它允许证明者不透露任何秘密信息前提下向验证者证明某陈述是正确的，且整个过程不需要双方来回对话。
+
+假设 $A,B$对应发送方和接收方，在传统的公钥密码方案中，一般都是：
+
+$$A\to B:\mathrm{Enc}_{\mathrm{pk}}(m)$$
+
+但为了应对CCA攻击，我们应当发送一个二元组，也就是：
+
+$$A\to B:(c,p),c=\mathrm{Enc}_{\mathrm{pk}}(m)$$
+而 $p$代表一个NIZK证明，陈述为：“我知道该密文对应 $m$”
+
+这个方法还有一个扩展：Naor-Yung范式，它基于两个由 $B$生成的公钥 $\mathrm{pk_1,pk_2}$，并运行
+
+$$A\to B:(c_1,c_2,p); c_1=\mathrm{Enc}_{\mathrm{pk}_1}(m),c_2=\mathrm{Enc}_{\mathrm{pk}_2}(m)$$
+而 $p$代表NIZK陈述：“$c_1,c_2$对应明文相等”。
+
+##### NY-90
+
+设 $(\mathrm{Gen,Enc,Dec})$为一个公钥方案。
+
+Setup:
+
+(1) $(e_1,d_1)\leftarrow \mathrm{Gen}(1^n);(e_2,d_2)\leftarrow \mathrm{Gen}(1^n)$ (生成两对公私密钥)
+(2) $R\leftarrow U(n)$ ( $U(n)$为均匀分布，$R$为取得的字符串)
+(3) $L$为一个语言，包含对 $(c_1,c_2)$，其中 $c_1,c_2$是同一个明文对应的密文。
+(4) $\mathrm{pk}=(e_1,e_2,R);\mathrm{sk}=(d_1,d_2)$
+
+Encrypt:
+
+(1) $(r_1,r_2)\leftarrow\{0,1\}^{l(n)}$, $l(n)$为一个多项式
+(2) $c_1\leftarrow\mathrm{Enc}_{e_1}(b,r_1),c_2\leftarrow\mathrm{Enc}_{e_2}(b,r_2)$, 其中 $b$为明文，。
+(3) $p\leftarrow P((e_1,e_2,(c_1,c_2)),(r_1,r_2),R)$为NIZK:" $c_1,c_2$为同明文对应的密文"
+(4) $c\leftarrow (c_1,c_2,p)$
+
+Decrypt:
+
+(1) 使用NIZK验证 $V$在验证 $p$:运行 $V(c,p,R)$
+(2) 如果 $V$接受，则直接解密 $b=\mathrm{Dec}_{d_1}(c_1)$
+
+可以证明，若原本的公钥方案是IND-CPA，则NY-90为IND-CCA1。
+
+##### (DDN)ABO+NIZK+One-Time Signature
+
+设 $(G,E,D)$为一个已有的方案, $GS$输出一个签名。
+
+Setup:
+
+(1) $(e_i^b,d_i^b)\leftarrow G(n),i=1,\dots,n;b=0,1$
+(2) $R\leftarrow U(n),\mathrm{pk}\leftarrow(e_i^{b},R),\mathrm{sk}\leftarrow d_i^b$
+
+Encrypt:
+
+(1) $(\mathrm{Sig,Ver})\leftarrow GS(n)$
+(2) $v=v_1,\dots,v_n\leftarrow h(\mathrm{Ver}),r_i\leftarrow\{0,1\}^{l(n)}$
+(3) $c_i\leftarrow E_{e_i^{v_i}}(m,r_i)$
+(4) $p=P((e_i^{v_i},c_i);r_i,R)$
+(5) $s=\mathrm{Sig}(c_i,p),c\leftarrow(\mathrm{Ver},s,c_i,p)$ 
+
+Decrypt:
+
+(1) $s=?\mathrm{Ver}(c_i,p)$
+(2) $v=v_1,\dots,v_n\leftarrow h(\mathrm{Ver}),V(c_i,p)?$
+(3) $m\leftarrow D_{d_i^{v_i}}(c)$
+
+该方案是CCA2的。
+
+##### 基于Hash Proof System构造CCA的PKE
+
+设 $G$为一个素数 $q$阶群。 $H$为Hash。
+
+Setup:
+
+(1) $g\leftarrow G,(z_1,z_2)\leftarrow(\mathbb{Z}/q\mathbb{Z})^{\times}$
+(2) $h_1\leftarrow g^{z_1},h_2\leftarrow g^{z_2},(x_1,x_2,x_3,y_1,y_2,y_3)\leftarrow(\mathbb{Z}/q\mathbb{Z})^{\times}$
+(3) $c_1\leftarrow g^{x_1}h_1^{x_3},c_2\leftarrow g^{x_2}h_2^{-x_3},d_1\leftarrow g^{y_1}h_1^{y_3},d_2\leftarrow g^{y_2}h^{-y_3}$
+(4) $\mathrm{pk}\leftarrow(h_1,h_2,c_1,c_2,d_1,d_2);\mathrm{sk}\leftarrow(z_1,z_2,x_1,x_2,x_3,y_1,y_2,y_3)$
+
+Encrypt:
+
+(1) $(w_1,w_2)\leftarrow(\mathbb{Z}/q\mathbb{Z})^{\times}$
+(2) $(u_1,u_2,e_1,e_2)\leftarrow(g^{w_1},g^{w_2},mh_1^{w_1},mh_2^{w_2})$
+(3) $(C_1,C_2)\leftarrow((u_1,e_1),(u_2,e_2))$
+(4) $t\leftarrow H(C_1,C_2);v\leftarrow c_1^{w_1}d_1^{w_1t}c_2^{w_2}d_2^{w_2t}$
+(5) $C\leftarrow (C_1,C_2,v)$
+
+Decrypt:
+
+(1) $t\leftarrow H(C_1,C_2),f\leftarrow e_1/e_2$
+(2) $v=? u_1^{x_1+ty_1}u_2^{x_2+ty_2}f^{x_3+ty_3}$
+(3) $m\leftarrow e_1/u_1^{z_1}$
+
+以上方案可以简化，简化的方案在下方，均可以得到CCA安全性。
+
+##### CS98
+
+##### Hybrid CS98 KEM+DEM
+
+##### KD04
+
+
+### 单向函数签名方案
+
+##### 存在性不可伪造选择信息攻击安全性(Existentially Unforgeable under Chosen-Message Attack,EUF-CMA)
+
+设 $(\mathrm{Vrfy,Sign})$为一个签名方案，以下为CMA攻击的内容, $A,C$分别为挑战者和攻击者：
+
+(1) $C:(\mathrm{pk,sk})\leftarrow\mathrm{Gen}(1^n)$
+(2) $C\to A:\mathrm{pk}$
+(3) $A\to C:m_i$
+(4) $C:\mathcal{Q}=\emptyset,\sigma_i\leftarrow\mathrm{Sign}_{\mathrm{sk}}(m_i)$
+(5) $C\to A:\sigma_i;\mathcal{Q}\leftarrow\mathcal{Q}\cup\{m_i\}$
+(6) $A\to C:(m,\sigma)$
+
+如果
+
+$$\mathrm{Pr}[\mathrm{Vrfy}_{\mathrm{pk}}(m,\sigma)=1,m\notin\mathcal{Q}]<\mathrm{negl}$$
+
+称该方案是EUF-CMA安全的。
+
+若 $\mathcal{Q}$一开始不是空集而是多个签名对 $\{(m_1,\sigma_1),\dots\}$，则称为强不可伪造选择信息攻击(Strongly Unforgeable under Chosen-Message Attack,SUF-CMA)。若 $A$访问 $C$的签名应答器仅仅一次，则称之为 EUF-OTCMA，其中OT是One Time。
+
+##### Lamport一次签名
+
+设 $f:\{0,1\}^n\to\{0,1\}^n$为单向函数。
+
+(1) $\mathrm{sk}=(x_{1,0},x_{1,1},x_{2,0},x_{2,1},\dots,x_{l,0},x_{l,1})$
+(2) $\mathrm{pk}=(y_{1,0},\dots,y_{l,1}),y_{i,j}=f(x_{i,j})$
+(3) $m=m_1m_2\dots m_l\in\{0,1\}^l$
+(4) $\sigma\leftarrow\mathrm{Sign}_{\mathrm{sk}}(m):\sigma=(x_{1,m_1},x_{2,m_2},\dots,x_{l,m_l})$
+(5) $\mathrm{Vrfy}_{\mathrm{pk}}(m_1\dots m_l;\sigma=(x_1,\dots,x_l))=1\Leftrightarrow f(x_i)=y_{i,m_i},\forall 1\leq i\leq l$
+
+Lamport一次签名的公钥和签名长，除此之外可以通过对比bit的方式得到 $\mathrm{sk}$的部分，例如：得知 $\mathrm{Sign}(000)=(x_{1,0},x_{2,0},x_{3,0});\mathrm{Sign}(111)=(x_{1,1},x_{2,1},x_{3,1})$。
+
+$f$的单向性可以证明 Lamport一次签名EUF-OTCMA安全。 $f$是单向置换推出SUF-OTCMA安全。
