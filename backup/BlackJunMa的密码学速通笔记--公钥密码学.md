@@ -407,3 +407,11 @@ $(c,k)\leftarrow\mathrm{Encap}(\mathrm{pk}):r\leftarrow M,(c_1,c_2)=(\mathrm{Enc
 
 $k\leftarrow\mathrm{Decap}(c_1,c_2):r=\mathrm{Dec}\_{\mathrm{sk}}(c_1),[(\mathrm{Enc}_{pk}(r)=c\_1)\wedge c\_2=H(r)]?G(r):\bot$
 
+##### Rabin-KEM
+
+ $(\mathrm{pk,sk})\leftarrow\mathrm{KEM.Gen}(1^n):\mathrm{pk}=N=pq,\mathrm{sk}=(p,q)$.
+
+ $(c,k)\mathrm{Encap}(\mathrm{pk}):r\leftarrow\mathbb{Z}/N\mathbb{Z},c=(r^2\mod N,H(r)),k=G(r)$
+
+ $k\leftarrow\mathrm{Decap}(c=(c_1,c_2))$:
+若 $c_1\notin(\mathbb{Z}/N\mathbb{Z})^{\times 2}$，输出 $\bot$。否则，计算 $r_1,r_2,r_3,r_4$作为 $c_1\mod N$的平方根，若$H(r_i)\neq c_2$，则输出 $\bot$;若存在 $i,j$使得 $H(r_i)=H(r_j)=c_2$则输出 $\bot$;若对唯一的 $r_i$有 $H(r_i)=c_2$，则输出  $k=G(r_i)$。
