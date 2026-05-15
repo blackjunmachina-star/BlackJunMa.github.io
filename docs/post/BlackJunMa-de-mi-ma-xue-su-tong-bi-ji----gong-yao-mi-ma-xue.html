@@ -417,7 +417,7 @@ $r\leftarrow(\mathbb{Z}/N\mathbb{Z})^{\times},c_1\equiv r^e\mod N,c_2=E^s_{H(r)}
 <p>称该方案是EUF-CMA安全的。</p>
 <p>若 $\mathcal{Q}$一开始不是空集而是多个签名对 ${(m_1,\sigma_1),\dots}$，则称为强不可伪造选择信息攻击(Strongly Unforgeable under Chosen-Message Attack,SUF-CMA)。若 $A$访问 $C$的签名应答器仅仅一次，则称之为 EUF-OTCMA，其中OT是One Time。</p>
 <h5>Lamport一次签名</h5>
-<p>设 $f:{0,1}^n\to{0,1}^n$为单向函数。</p>
+<p>设 $f:\{0,1\}^n\to\{0,1\}^n$为单向函数。</p>
 <p>(1) $\mathrm{sk}=(x_{1,0},x_{1,1},x_{2,0},x_{2,1},\dots,x_{l,0},x_{l,1})$<br>
 (2) $\mathrm{pk}=(y_{1,0},\dots,y_{l,1}),y_{i,j}=f(x_{i,j})$<br>
 (3) $m=m_1m_2\dots m_l\in{0,1}^l$<br>

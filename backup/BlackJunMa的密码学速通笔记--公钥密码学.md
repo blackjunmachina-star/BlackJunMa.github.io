@@ -543,7 +543,7 @@ $$\mathrm{Pr}[\mathrm{Vrfy}_{\mathrm{pk}}(m,\sigma)=1,m\notin\mathcal{Q}]<\mathr
 
 ##### Lamport一次签名
 
-设 $f:\{0,1\}^n\to\{0,1\}^n$为单向函数。
+设 $f:\\{0,1\\}^n\to\\{0,1\\}^n$为单向函数。
 
 (1) $\mathrm{sk}=(x_{1,0},x_{1,1},x_{2,0},x_{2,1},\dots,x_{l,0},x_{l,1})$
 (2) $\mathrm{pk}=(y_{1,0},\dots,y_{l,1}),y_{i,j}=f(x_{i,j})$
