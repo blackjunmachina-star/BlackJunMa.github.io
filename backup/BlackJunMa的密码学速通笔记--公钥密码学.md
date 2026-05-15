@@ -411,7 +411,7 @@ $k\leftarrow\mathrm{Decap}(c_1,c_2):r=\mathrm{Dec}\_{\mathrm{sk}}(c_1),[(\mathrm
 
  $(\mathrm{pk,sk})\leftarrow\mathrm{KEM.Gen}(1^n):\mathrm{pk}=N=pq,\mathrm{sk}=(p,q)$.
 
- $(c,k)\mathrm{Encap}(\mathrm{pk}):r\leftarrow\mathbb{Z}/N\mathbb{Z},c=(r^2\mod N,H(r)),k=G(r)$
+ $(c,k)\leftarrow\mathrm{Encap}(\mathrm{pk}):r\leftarrow\mathbb{Z}/N\mathbb{Z},c=(r^2\mod N,H(r)),k=G(r)$
 
  $k\leftarrow\mathrm{Decap}(c=(c_1,c_2))$:
 若 $c_1\notin(\mathbb{Z}/N\mathbb{Z})^{\times 2}$，输出 $\bot$。否则，计算 $r_1,r_2,r_3,r_4$作为 $c_1\mod N$的平方根，若 $H(r_i)\neq c_2$，则输出 $\bot$;若存在 $i,j$使得 $H(r_i)=H(r_j)=c_2$则输出 $\bot$;若对唯一的 $r_i$有 $H(r_i)=c_2$，则输出  $k=G(r_i)$。
@@ -433,7 +433,7 @@ $$A\to B:(c,p),c=\mathrm{Enc}_{\mathrm{pk}}(m)$$
 
 这个方法还有一个扩展：Naor-Yung范式，它基于两个由 $B$生成的公钥 $\mathrm{pk_1,pk_2}$，并运行
 
-$$A\to B:(c_1,c_2,p); c_1=\mathrm{Enc}_{\mathrm{pk}_1}(m),c_2=\mathrm{Enc}_{\mathrm{pk}_2}(m)$$
+$$A\to B:(c\_1,c\_2,p); c\_1=\mathrm{Enc}\_{\mathrm{pk}\_1}(m),c_2=\mathrm{Enc}\_{\mathrm{pk}\_2}(m)$$
 而 $p$代表NIZK陈述：“$c_1,c_2$对应明文相等”。
 
 ##### NY-90
@@ -449,10 +449,10 @@ Setup:
 
 Encrypt:
 
-(1) $(r_1,r_2)\leftarrow\{0,1\}^{l(n)}$, $l(n)$为一个多项式
-(2) $c_1\leftarrow\mathrm{Enc}_{e_1}(b,r_1),c_2\leftarrow\mathrm{Enc}_{e_2}(b,r_2)$, 其中 $b$为明文，。
-(3) $p\leftarrow P((e_1,e_2,(c_1,c_2)),(r_1,r_2),R)$为NIZK:" $c_1,c_2$为同明文对应的密文"
-(4) $c\leftarrow (c_1,c_2,p)$
+(1) $(r_1,r_2)\leftarrow\\{0,1\\}^{l(n)}$, $l(n)$为一个多项式
+(2) $c\_1\leftarrow\mathrm{Enc}\_{e\_1}(b,r\_1),c_2\leftarrow\mathrm{Enc}\_{e_2}(b,r\_2)$, 其中 $b$为明文，。
+(3) $p\leftarrow P((e\_1,e\_2,(c\_1,c\_2)),(r\_1,r\_2),R)$为NIZK:" $c\_1,c\_2$为同明文对应的密文"
+(4) $c\leftarrow (c\_1,c\_2,p)$
 
 Decrypt:
 

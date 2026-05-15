@@ -336,7 +336,7 @@ $r\leftarrow(\mathbb{Z}/N\mathbb{Z})^{\times},c_1\equiv r^e\mod N,c_2=E^s_{H(r)}
 <p>$k\leftarrow\mathrm{Decap}(c_1,c_2):r=\mathrm{Dec}_{\mathrm{sk}}(c_1),[(\mathrm{Enc}_{pk}(r)=c_1)\wedge c_2=H(r)]?G(r):\bot$</p>
 <h5>Rabin-KEM</h5>
 <p>$(\mathrm{pk,sk})\leftarrow\mathrm{KEM.Gen}(1^n):\mathrm{pk}=N=pq,\mathrm{sk}=(p,q)$.</p>
-<p>$(c,k)\mathrm{Encap}(\mathrm{pk}):r\leftarrow\mathbb{Z}/N\mathbb{Z},c=(r^2\mod N,H(r)),k=G(r)$</p>
+<p>$(c,k)\leftarrow\mathrm{Encap}(\mathrm{pk}):r\leftarrow\mathbb{Z}/N\mathbb{Z},c=(r^2\mod N,H(r)),k=G(r)$</p>
 <p>$k\leftarrow\mathrm{Decap}(c=(c_1,c_2))$:<br>
 若 $c_1\notin(\mathbb{Z}/N\mathbb{Z})^{\times 2}$，输出 $\bot$。否则，计算 $r_1,r_2,r_3,r_4$作为 $c_1\mod N$的平方根，若 $H(r_i)\neq c_2$，则输出 $\bot$;若存在 $i,j$使得 $H(r_i)=H(r_j)=c_2$则输出 $\bot$;若对唯一的 $r_i$有 $H(r_i)=c_2$，则输出  $k=G(r_i)$。</p>
 <h3>CCA设计</h3>
@@ -348,7 +348,7 @@ $r\leftarrow(\mathbb{Z}/N\mathbb{Z})^{\times},c_1\equiv r^e\mod N,c_2=E^s_{H(r)}
 <p>$$A\to B:(c,p),c=\mathrm{Enc}_{\mathrm{pk}}(m)$$<br>
 而 $p$代表一个NIZK证明，陈述为：“我知道该密文对应 $m$”</p>
 <p>这个方法还有一个扩展：Naor-Yung范式，它基于两个由 $B$生成的公钥 $\mathrm{pk_1,pk_2}$，并运行</p>
-<p>$$A\to B:(c_1,c_2,p); c_1=\mathrm{Enc}_{\mathrm{pk}<em>1}(m),c_2=\mathrm{Enc}</em>{\mathrm{pk}_2}(m)$$<br>
+<p>$$A\to B:(c_1,c_2,p); c_1=\mathrm{Enc}_{\mathrm{pk}_1}(m),c_2=\mathrm{Enc}_{\mathrm{pk}_2}(m)$$<br>
 而 $p$代表NIZK陈述：“$c_1,c_2$对应明文相等”。</p>
 <h5>NY-90</h5>
 <p>设 $(\mathrm{Gen,Enc,Dec})$为一个公钥方案。</p>
@@ -358,8 +358,8 @@ $r\leftarrow(\mathbb{Z}/N\mathbb{Z})^{\times},c_1\equiv r^e\mod N,c_2=E^s_{H(r)}
 (3) $L$为一个语言，包含对 $(c_1,c_2)$，其中 $c_1,c_2$是同一个明文对应的密文。<br>
 (4) $\mathrm{pk}=(e_1,e_2,R);\mathrm{sk}=(d_1,d_2)$</p>
 <p>Encrypt:</p>
-<p>(1) $(r_1,r_2)\leftarrow{0,1}^{l(n)}$, $l(n)$为一个多项式<br>
-(2) $c_1\leftarrow\mathrm{Enc}<em>{e_1}(b,r_1),c_2\leftarrow\mathrm{Enc}</em>{e_2}(b,r_2)$, 其中 $b$为明文，。<br>
+<p>(1) $(r_1,r_2)\leftarrow\{0,1\}^{l(n)}$, $l(n)$为一个多项式<br>
+(2) $c_1\leftarrow\mathrm{Enc}_{e_1}(b,r_1),c_2\leftarrow\mathrm{Enc}_{e_2}(b,r_2)$, 其中 $b$为明文，。<br>
 (3) $p\leftarrow P((e_1,e_2,(c_1,c_2)),(r_1,r_2),R)$为NIZK:" $c_1,c_2$为同明文对应的密文"<br>
 (4) $c\leftarrow (c_1,c_2,p)$</p>
 <p>Decrypt:</p>
