@@ -420,7 +420,7 @@ $r\leftarrow(\mathbb{Z}/N\mathbb{Z})^{\times},c_1\equiv r^e\mod N,c_2=E^s_{H(r)}
 <p>设 $f:\{0,1\}^n\to\{0,1\}^n$为单向函数。</p>
 <p>(1) $\mathrm{sk}=(x_{1,0},x_{1,1},x_{2,0},x_{2,1},\dots,x_{l,0},x_{l,1})$<br>
 (2) $\mathrm{pk}=(y_{1,0},\dots,y_{l,1}),y_{i,j}=f(x_{i,j})$<br>
-(3) $m=m_1m_2\dots m_l\in{0,1}^l$<br>
+(3) $m=m_1m_2\dots m_l\in\{0,1\}^l$<br>
 (4) $\sigma\leftarrow\mathrm{Sign}_{\mathrm{sk}}(m):\sigma=(x_{1,m_1},x_{2,m_2},\dots,x_{l,m_l})$<br>
 (5) $\mathrm{Vrfy}_{\mathrm{pk}}(m_1\dots m_l;\sigma=(x_1,\dots,x_l))=1\Leftrightarrow f(x_i)=y_{i,m_i},\forall 1\leq i\leq l$</p>
 <p>Lamport一次签名的公钥和签名长，除此之外可以通过对比bit的方式得到 $\mathrm{sk}$的部分，例如：得知 $\mathrm{Sign}(000)=(x_{1,0},x_{2,0},x_{3,0});\mathrm{Sign}(111)=(x_{1,1},x_{2,1},x_{3,1})$。</p>
@@ -428,8 +428,8 @@ $r\leftarrow(\mathbb{Z}/N\mathbb{Z})^{\times},c_1\equiv r^e\mod N,c_2=E^s_{H(r)}
 <h5>Hash-and-Sign</h5>
 <p>设含参Hash函数 $H_s$,并且存在一个已有的签名方案 $(\mathrm{Gen,Sign,Vrfy})$。定义其Hash-and-Sign方案</p>
 <p>$\mathrm{pk}'=(s,\mathrm{pk}),\mathrm{sk}'=(s,\mathrm{sk})$;<br>
-$\sigma'\leftarrow\mathrm{Sign}'<em>{\mathrm{sk}'}(m)=\mathrm{Sign}</em>{\mathrm{sk}}(H_s(m))$<br>
-$\mathrm{Vrfy}'<em>{\mathrm{pk}'}(m,\sigma')=1\Leftrightarrow\mathrm{Vrfy}</em>{\mathrm{pk}}(H_s(m),\sigma')=1$</p>
+$\sigma'\leftarrow\mathrm{Sign}'_{\mathrm{sk}'}(m)=\mathrm{Sign}_{\mathrm{sk}}(H_s(m))$<br>
+$\mathrm{Vrfy}'_{\mathrm{pk}'}(m,\sigma')=1\Leftrightarrow\mathrm{Vrfy}_{\mathrm{pk}}(H_s(m),\sigma')=1$</p>
 <p>已有签名方案EUF-CMA且 $H$抗碰撞则Hash-and-Sign是EUF-CMA的。</p>
 <h5>一次签名框架</h5>
 <p>设 $F$为PRF，$\mathcal{K}$为私钥空间。</p>
@@ -461,17 +461,17 @@ $\mathrm{Vrfy}_{\mathrm{pk}}(m,\sigma)=1\Leftrightarrow \mathrm{pk}=H(f^{[d-s_1]
 <h5>状态签名</h5>
 <p>有时候签名需要加入状态。</p>
 <p>$(\mathrm{pk,sk},s_0)\leftarrow\mathrm{Gen}(1^n)$<br>
-$(\sigma,s_i)\leftarrow\mathrm{Sign}<em>{\mathrm{sk},s</em>{i-1}}(m)$</p>
-<p>$\mathrm{Vrfy}<em>{\mathrm{pk}}(m,\sigma)=1\Leftrightarrow (\sigma_i,s_i)\leftarrow\mathrm{Sign}</em>{\mathrm{sk},s_{i-1}}(m_i),1\leq i\leq l$</p>
+$(\sigma,s_i)\leftarrow\mathrm{Sign}_{\mathrm{sk},s_{i-1}}(m)$</p>
+<p>$\mathrm{Vrfy}_{\mathrm{pk}}(m,\sigma)=1\Leftrightarrow (\sigma_i,s_i)\leftarrow\mathrm{Sign}_{\mathrm{sk},s_{i-1}}(m_i),1\leq i\leq l$</p>
 <h5>链式签名</h5>
 <p>设存在一个一次签名方案 $\Pi_{\mathrm{OT}}=(\mathrm{Gen,Sign,Vrfy})$，则可以定义一个链式签名过程：</p>
 <p>(1) $(\mathrm{pk}_1,\mathrm{sk}_1)\leftarrow\mathrm{Gen}(1^n)$<br>
-(2) $(\mathrm{pk}<em>2,\mathrm{sk}<em>2)\leftarrow\mathrm{Gen}(1^n),\sigma_1\leftarrow\mathrm{Sign}</em>{\mathrm{sk}<em>1}(m_1||\mathrm{pk}<em>2),s_1=(m_1,\mathrm{pk}<em>2,\mathrm{sk}<em>2,\sigma_1)$<br>
+(2) $(\mathrm{pk}_2,\mathrm{sk}_2)\leftarrow\mathrm{Gen}(1^n),\sigma_1\leftarrow\mathrm{Sign}_{\mathrm{sk}_1}(m_1||\mathrm{pk}_2),s_1=(m_1,\mathrm{pk}_2,\mathrm{sk}_2,\sigma_1)$<br>
 (3) $\dots$<br>
-(4) $(\mathrm{pk}</em>{i+1},\mathrm{sk}</em>{i+1})\leftarrow\mathrm{Gen}(1^n),\sigma_i\leftarrow\mathrm{Sign}</em>{\mathrm{sk}<em>i}(m_i||\mathrm{pk}</em>{i+1}),s_i={(m_j,\mathrm{pk}</em>{j+1},\mathrm{sk}</em>{j+1},\sigma_j)|1\leq j\leq i}$</p>
-<p>每一个 $m_T$的签名以 $(\sigma_T,\mathrm{pk}<em>{T+1},{(m_j,\mathrm{pk}</em>{j+1},\sigma_j)|1\leq j\leq T-1})$的形式送出。</p>
+(4) $(\mathrm{pk}_{i+1},\mathrm{sk}_{i+1})\leftarrow\mathrm{Gen}(1^n),\sigma_i\leftarrow\mathrm{Sign}_{\mathrm{sk}_i}(m_i||\mathrm{pk}_{i+1}),s_i={(m_j,\mathrm{pk}_{j+1},\mathrm{sk}_{j+1},\sigma_j)|1\leq j\leq i}$</p>
+<p>每一个 $m_T$的签名以 $(\sigma_T,\mathrm{pk}_{T+1},{(m_j,\mathrm{pk}_{j+1},\sigma_j)|1\leq j\leq T-1})$的形式送出。</p>
 <h5>树式签名</h5>
-<p>设 $(\mathrm{Gen,Sign,Vrfy})$为一次签名， $m=m_1m_2\dots\in{0,1}^{\ast},m|_i=m_1\dots m_i$。构造树式签名 $(\mathrm{Gen^<em>,Sign^</em>,Vrfy^*})$如下：</p>
+<p>设 $(\mathrm{Gen,Sign,Vrfy})$为一次签名， $m=m_1m_2\dots\in{0,1}^{\ast},m|_i=m_1\dots m_i$。构造树式签名 $(\mathrm{Gen}^{\ast},\mathrm{Sign}^{\ast},\mathrm{Vrfy}^{\ast})$如下：</p>
 <p>Setup:</p>
 <p>$(\mathrm{pk}<em>{\emptyset},\mathrm{sk}</em>{\emptyset})\leftarrow\mathrm{Gen}^{\ast}(1^n):(\mathrm{pk}<em>{\emptyset},\mathrm{sk}</em>{\emptyset})\leftarrow\mathrm{Gen}(1^n),s=[\mathrm{sk}_{\emptyset}]$</p>
 <p>Sign:</p>

@@ -547,7 +547,7 @@ $$\mathrm{Pr}[\mathrm{Vrfy}_{\mathrm{pk}}(m,\sigma)=1,m\notin\mathcal{Q}]<\mathr
 
 (1) $\mathrm{sk}=(x_{1,0},x_{1,1},x_{2,0},x_{2,1},\dots,x_{l,0},x_{l,1})$
 (2) $\mathrm{pk}=(y_{1,0},\dots,y_{l,1}),y_{i,j}=f(x_{i,j})$
-(3) $m=m_1m_2\dots m_l\in\{0,1\}^l$
+(3) $m=m_1m_2\dots m_l\in\\{0,1\\}^l$
 (4) $\sigma\leftarrow\mathrm{Sign}\_{\mathrm{sk}}(m):\sigma=(x\_{1,m\_1},x\_{2,m\_2},\dots,x\_{l,m\_l})$
 (5) $\mathrm{Vrfy}\_{\mathrm{pk}}(m\_1\dots m\_l;\sigma=(x\_1,\dots,x\_l))=1\Leftrightarrow f(x\_i)=y_{i,m\_i},\forall 1\leq i\leq l$
 
@@ -560,8 +560,8 @@ $f$的单向性可以证明 Lamport一次签名EUF-OTCMA安全。 $f$是单向�
 设含参Hash函数 $H_s$,并且存在一个已有的签名方案 $(\mathrm{Gen,Sign,Vrfy})$。定义其Hash-and-Sign方案
 
 $\mathrm{pk}'=(s,\mathrm{pk}),\mathrm{sk}'=(s,\mathrm{sk})$;
-$\sigma'\leftarrow\mathrm{Sign}'_{\mathrm{sk}'}(m)=\mathrm{Sign}_{\mathrm{sk}}(H_s(m))$
-$\mathrm{Vrfy}'_{\mathrm{pk}'}(m,\sigma')=1\Leftrightarrow\mathrm{Vrfy}_{\mathrm{pk}}(H_s(m),\sigma')=1$
+$\sigma'\leftarrow\mathrm{Sign}'\_{\mathrm{sk}'}(m)=\mathrm{Sign}\_{\mathrm{sk}}(H_s(m))$
+$\mathrm{Vrfy}'\_{\mathrm{pk}'}(m,\sigma')=1\Leftrightarrow\mathrm{Vrfy}\_{\mathrm{pk}}(H\_s(m),\sigma')=1$
 
 已有签名方案EUF-CMA且 $H$抗碰撞则Hash-and-Sign是EUF-CMA的。
 
@@ -615,24 +615,24 @@ $\mathrm{Vrfy}_{\mathrm{pk}}(m,\sigma)=1\Leftrightarrow \mathrm{pk}=H(f^{[d-s_1]
 有时候签名需要加入状态。
 
 $(\mathrm{pk,sk},s_0)\leftarrow\mathrm{Gen}(1^n)$
-$(\sigma,s_i)\leftarrow\mathrm{Sign}_{\mathrm{sk},s_{i-1}}(m)$
+$(\sigma,s_i)\leftarrow\mathrm{Sign}\_{\mathrm{sk},s\_{i-1}}(m)$
 
-$\mathrm{Vrfy}_{\mathrm{pk}}(m,\sigma)=1\Leftrightarrow (\sigma_i,s_i)\leftarrow\mathrm{Sign}_{\mathrm{sk},s_{i-1}}(m_i),1\leq i\leq l$
+$\mathrm{Vrfy}\_{\mathrm{pk}}(m,\sigma)=1\Leftrightarrow (\sigma\_i,s\_i)\leftarrow\mathrm{Sign}\_{\mathrm{sk},s\_{i-1}}(m\_i),1\leq i\leq l$
 
 ##### 链式签名
 
 设存在一个一次签名方案 $\Pi_{\mathrm{OT}}=(\mathrm{Gen,Sign,Vrfy})$，则可以定义一个链式签名过程：
 
-(1) $(\mathrm{pk}_1,\mathrm{sk}_1)\leftarrow\mathrm{Gen}(1^n)$
-(2) $(\mathrm{pk}_2,\mathrm{sk}_2)\leftarrow\mathrm{Gen}(1^n),\sigma_1\leftarrow\mathrm{Sign}_{\mathrm{sk}_1}(m_1||\mathrm{pk}_2),s_1=(m_1,\mathrm{pk}_2,\mathrm{sk}_2,\sigma_1)$
+(1) $(\mathrm{pk}\_1,\mathrm{sk}\_1)\leftarrow\mathrm{Gen}(1^n)$
+(2) $(\mathrm{pk}\_2,\mathrm{sk}\_2)\leftarrow\mathrm{Gen}(1^n),\sigma\_1\leftarrow\mathrm{Sign}\_{\mathrm{sk}\_1}(m\_1||\mathrm{pk}\_2),s\_1=(m\_1,\mathrm{pk}\_2,\mathrm{sk}\_2,\sigma\_1)$
 (3) $\dots$
-(4) $(\mathrm{pk}_{i+1},\mathrm{sk}_{i+1})\leftarrow\mathrm{Gen}(1^n),\sigma_i\leftarrow\mathrm{Sign}_{\mathrm{sk}_i}(m_i||\mathrm{pk}_{i+1}),s_i=\{(m_j,\mathrm{pk}_{j+1},\mathrm{sk}_{j+1},\sigma_j)|1\leq j\leq i\}$
+(4) $(\mathrm{pk}\_{i+1},\mathrm{sk}\_{i+1})\leftarrow\mathrm{Gen}(1^n),\sigma\_i\leftarrow\mathrm{Sign}\_{\mathrm{sk}\_i}(m_i||\mathrm{pk}\_{i+1}),s\_i=\{(m\_j,\mathrm{pk}\_{j+1},\mathrm{sk}\_{j+1},\sigma\_j)|1\leq j\leq i\}$
 
-每一个 $m_T$的签名以 $(\sigma_T,\mathrm{pk}_{T+1},\{(m_j,\mathrm{pk}_{j+1},\sigma_j)|1\leq j\leq T-1\})$的形式送出。
+每一个 $m_T$的签名以 $(\sigma_T,\mathrm{pk}\_{T+1},\{(m_j,\mathrm{pk}\_{j+1},\sigma_j)|1\leq j\leq T-1\})$的形式送出。
 
 ##### 树式签名
 
-设 $(\mathrm{Gen,Sign,Vrfy})$为一次签名， $m=m_1m_2\dots\in\{0,1\}^{\ast},m|_i=m_1\dots m_i$。构造树式签名 $(\mathrm{Gen^*,Sign^*,Vrfy^*})$如下：
+设 $(\mathrm{Gen,Sign,Vrfy})$为一次签名， $m=m_1m_2\dots\in\{0,1\}^{\ast},m|_i=m_1\dots m_i$。构造树式签名 $(\mathrm{Gen}^{\ast},\mathrm{Sign}^{\ast},\mathrm{Vrfy}^{\ast})$如下：
 
 Setup:
 
