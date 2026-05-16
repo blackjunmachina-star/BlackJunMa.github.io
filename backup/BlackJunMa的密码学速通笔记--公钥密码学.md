@@ -554,3 +554,103 @@ $$\mathrm{Pr}[\mathrm{Vrfy}_{\mathrm{pk}}(m,\sigma)=1,m\notin\mathcal{Q}]<\mathr
 Lamport一次签名的公钥和签名长，除此之外可以通过对比bit的方式得到 $\mathrm{sk}$的部分，例如：得知 $\mathrm{Sign}(000)=(x_{1,0},x_{2,0},x_{3,0});\mathrm{Sign}(111)=(x_{1,1},x_{2,1},x_{3,1})$。
 
 $f$的单向性可以证明 Lamport一次签名EUF-OTCMA安全。 $f$是单向置换推出SUF-OTCMA安全。
+
+##### Hash-and-Sign
+
+设含参Hash函数 $H_s$,并且存在一个已有的签名方案 $(\mathrm{Gen,Sign,Vrfy})$。定义其Hash-and-Sign方案
+
+$\mathrm{pk}'=(s,\mathrm{pk}),\mathrm{sk}'=(s,\mathrm{sk})$;
+$\sigma'\leftarrow\mathrm{Sign}'_{\mathrm{sk}'}(m)=\mathrm{Sign}_{\mathrm{sk}}(H_s(m))$
+$\mathrm{Vrfy}'_{\mathrm{pk}'}(m,\sigma')=1\Leftrightarrow\mathrm{Vrfy}_{\mathrm{pk}}(H_s(m),\sigma')=1$
+
+已有签名方案EUF-CMA且 $H$抗碰撞则Hash-and-Sign是EUF-CMA的。
+
+##### 一次签名框架
+
+设 $F$为PRF，$\mathcal{K}$为私钥空间。
+
+Setup:
+
+$\mathrm{sk}\leftarrow\mathcal{K}$
+$x_i\leftarrow F(\mathrm{sk},i);y_i=f(x_i),\mathrm{pk}=(y_1,\dots,y_n)$
+
+Sign:
+
+$P(m)=\{s_1,\dots,s_l\}\subset\{1,\dots,n\}$
+$x_{s_i}\leftarrow F(\mathrm{sk},i)$
+$\sigma=(x_{s_1},\dots,x_{s_l})$
+
+Verify:
+
+$\{s_1,\dots,x_l\}=P(m),\sigma=(x_1,\dots,x_l)$
+$\mathrm{Vrfy}(m,\sigma)=1\Leftrightarrow y_{s_i}=f(x_i),\forall i$
+
+若 $P(m)\not\subset P(m'),\forall m\neq m'$，而且 $f$为单向函数，则该方案EUF-OTCMA。
+
+##### Winternitz一次签名
+
+我们使用 $f^{[n]}(x)$表示 $f$的自我复合，即 $f^{[1]}(x)=f(x),f^{[n]}(x)=f(f^{[n-1]}(x))$。 $G$为一个PRG, $H$为Hash。
+
+Setup:
+
+$\mathrm{sk}\leftarrow\mathcal{K}$
+$(x_1,\dots,x_n)\leftarrow G(\mathrm{sk}),y_i=f^{[d]}(x_i)$
+$\mathrm{pk}=H(y_1,\dots,y_n)$
+
+Sign:
+
+$(x_1,\dots,x_n)\leftarrow G(\mathrm{sk})$
+$P(m)=(s_1,\dots,s_n)\in\{0,1,\dots,d\}^n$
+$\sigma=(f^{[s_1]}(x_1),\dots,f^{[s_n]}(x_n))$
+
+Verify:
+
+$(s_1,\dots,s_n)=P(m),\sigma=(z_1,\dots,z_n)$
+$\mathrm{Vrfy}_{\mathrm{pk}}(m,\sigma)=1\Leftrightarrow \mathrm{pk}=H(f^{[d-s_1]}(z_1),\dots,f^{[d-s_n]}(z_n))$
+
+定义 $P(m')\geq P(m)\Leftrightarrow s_i'\geq s_i,\forall i$，若 $f$的任意 $d$次或者更少的自复合是单向的， $H$抗碰撞， $P(m)\not\geq P(m'),\forall m'\neq m$，则该签名时EUF-OTCMA的。
+
+##### 状态签名
+
+有时候签名需要加入状态。
+
+$(\mathrm{pk,sk},s_0)\leftarrow\mathrm{Gen}(1^n)$
+$(\sigma,s_i)\leftarrow\mathrm{Sign}_{\mathrm{sk},s_{i-1}}(m)$
+
+$\mathrm{Vrfy}_{\mathrm{pk}}(m,\sigma)=1\Leftrightarrow (\sigma_i,s_i)\leftarrow\mathrm{Sign}_{\mathrm{sk},s_{i-1}}(m_i),1\leq i\leq l$
+
+##### 链式签名
+
+设存在一个一次签名方案 $\Pi_{\mathrm{OT}}=(\mathrm{Gen,Sign,Vrfy})$，则可以定义一个链式签名过程：
+
+(1) $(\mathrm{pk}_1,\mathrm{sk}_1)\leftarrow\mathrm{Gen}(1^n)$
+(2) $(\mathrm{pk}_2,\mathrm{sk}_2)\leftarrow\mathrm{Gen}(1^n),\sigma_1\leftarrow\mathrm{Sign}_{\mathrm{sk}_1}(m_1||\mathrm{pk}_2),s_1=(m_1,\mathrm{pk}_2,\mathrm{sk}_2,\sigma_1)$
+(3) $\dots$
+(4) $(\mathrm{pk}_{i+1},\mathrm{sk}_{i+1})\leftarrow\mathrm{Gen}(1^n),\sigma_i\leftarrow\mathrm{Sign}_{\mathrm{sk}_i}(m_i||\mathrm{pk}_{i+1}),s_i=\{(m_j,\mathrm{pk}_{j+1},\mathrm{sk}_{j+1},\sigma_j)|1\leq j\leq i\}$
+
+每一个 $m_T$的签名以 $(\sigma_T,\mathrm{pk}_{T+1},\{(m_j,\mathrm{pk}_{j+1},\sigma_j)|1\leq j\leq T-1\})$的形式送出。
+
+##### 树式签名
+
+设 $(\mathrm{Gen,Sign,Vrfy})$为一次签名， $m=m_1m_2\dots\in\{0,1\}^{\ast},m|_i=m_1\dots m_i$。构造树式签名 $(\mathrm{Gen^*,Sign^*,Vrfy^*})$如下：
+
+Setup:
+
+$(\mathrm{pk}_{\emptyset},\mathrm{sk}_{\emptyset})\leftarrow\mathrm{Gen}^{\ast}(1^n):(\mathrm{pk}_{\emptyset},\mathrm{sk}_{\emptyset})\leftarrow\mathrm{Gen}(1^n),s=[\mathrm{sk}_{\emptyset}]$
+
+Sign:
+
+$(\{\sigma_{m|_i},\mathrm{pk}_{m|_i0},\mathrm{pk}_{m|_i1}|0\leq i\leq n-1\},\sigma_m)\leftarrow\mathrm{Sign}^{\ast}_{\mathrm{sk}_{\emptyset},s}(m),m\in\{0,1\}^n$:
+(1) 对 $i\leq n-1$，若 $\sigma_{m|_i},\mathrm{pk}_{m|_i0},\mathrm{pk}_{m|_i1}$不在 $s$中，则有
+$(\mathrm{pk}_{m|_{i}0},\mathrm{sk}_{m|_i1}),(\mathrm{pk}_{m|_i1},\mathrm{sk}_{m|_i1})\leftarrow\mathrm{Gen}(1^n);$
+$\sigma_{m|_i}\leftarrow\mathrm{Sign}_{\mathrm{sk}_{m|_i}}(\mathrm{pk}_{m|_i0}||\mathrm{pk}_{m|_i1})$
+$s=[\{\sigma_{m|_i},\mathrm{pk}_{m|_i0},\mathrm{sk}_{m|_i0},\mathrm{pk}_{m|_i1},\mathrm{sk}_{m|_i1}\}]$
+(2) $\sigma_m\leftarrow\mathrm{Sign}_{\mathrm{sk}_m}(m)$
+
+Verify:
+
+$\mathrm{Vrfy}^{\ast}_{\mathrm{pk}_{\emptyset}}(m,(\{\sigma_{m|_i},\mathrm{pk}_{m|_i0},\mathrm{pk}_{m|_i1}|i\leq n-1\},\sigma_m))=1$当且仅当：
+$\mathrm{Vrfy}_{\mathrm{pk}_{m|_i}}(\mathrm{pk}_{m|_i0}||\mathrm{pk}_{m|_i1},\sigma_{m|_i})=1,0\leq i\leq n-1;\mathrm{Vrfy}_{\mathrm{pk}_m}(m,\sigma_m)=1$
+
+若其的基础的一次签名EUF-OTCMA，则树签名为EUF-CMA。
+
