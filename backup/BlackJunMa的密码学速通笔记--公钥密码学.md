@@ -640,7 +640,7 @@ $(\mathrm{pk}\_{\emptyset},\mathrm{sk}\_{\emptyset})\leftarrow\mathrm{Gen}^{\ast
 
 Sign:
 
-$(\{\sigma_{m|\_i},\mathrm{pk}\_{m|_i0},\mathrm{pk}\_{m|\_i1}|0\leq i\leq n-1\},\sigma_m)\leftarrow\mathrm{Sign}^{\ast}\_{\mathrm{sk}\_{\emptyset},s}(m),m\in\{0,1\}^n$:
+$(\{\sigma_{m|\_i},\mathrm{pk}\_{m|\_i0},\mathrm{pk}\_{m|\_i1}|0\leq i\leq n-1\},\sigma_m)\leftarrow\mathrm{Sign}^{\ast}\_{\mathrm{sk}\_{\emptyset},s}(m),m\in\{0,1\}^n$:
 (1) 对 $i\leq n-1$，若 $\sigma_{m|\_i},\mathrm{pk}\_{m|\_i0},\mathrm{pk}\_{m|\_i1}$不在 $s$中，则有
 $(\mathrm{pk}\_{m|\_{i}0},\mathrm{sk}\_{m|\_i1}),(\mathrm{pk}\_{m|\_i1},\mathrm{sk}\_{m|\_i1})\leftarrow\mathrm{Gen}(1^n);$
 $\sigma\_{m|\_i}\leftarrow\mathrm{Sign}\_{\mathrm{sk}\_{m|\_i}}(\mathrm{pk}\_{m|\_i0}||\mathrm{pk}\_{m|\_i1})$
