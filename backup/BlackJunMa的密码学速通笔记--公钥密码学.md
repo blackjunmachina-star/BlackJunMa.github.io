@@ -636,21 +636,21 @@ $\mathrm{Vrfy}\_{\mathrm{pk}}(m,\sigma)=1\Leftrightarrow (\sigma\_i,s\_i)\leftar
 
 Setup:
 
-$(\mathrm{pk}_{\emptyset},\mathrm{sk}_{\emptyset})\leftarrow\mathrm{Gen}^{\ast}(1^n):(\mathrm{pk}_{\emptyset},\mathrm{sk}_{\emptyset})\leftarrow\mathrm{Gen}(1^n),s=[\mathrm{sk}_{\emptyset}]$
+$(\mathrm{pk}\_{\emptyset},\mathrm{sk}\_{\emptyset})\leftarrow\mathrm{Gen}^{\ast}(1^n):(\mathrm{pk}\_{\emptyset},\mathrm{sk}\_{\emptyset})\leftarrow\mathrm{Gen}(1^n),s=[\mathrm{sk}\_{\emptyset}]$
 
 Sign:
 
-$(\{\sigma_{m|_i},\mathrm{pk}_{m|_i0},\mathrm{pk}_{m|_i1}|0\leq i\leq n-1\},\sigma_m)\leftarrow\mathrm{Sign}^{\ast}_{\mathrm{sk}_{\emptyset},s}(m),m\in\{0,1\}^n$:
-(1) 对 $i\leq n-1$，若 $\sigma_{m|_i},\mathrm{pk}_{m|_i0},\mathrm{pk}_{m|_i1}$不在 $s$中，则有
-$(\mathrm{pk}_{m|_{i}0},\mathrm{sk}_{m|_i1}),(\mathrm{pk}_{m|_i1},\mathrm{sk}_{m|_i1})\leftarrow\mathrm{Gen}(1^n);$
-$\sigma_{m|_i}\leftarrow\mathrm{Sign}_{\mathrm{sk}_{m|_i}}(\mathrm{pk}_{m|_i0}||\mathrm{pk}_{m|_i1})$
-$s=[\{\sigma_{m|_i},\mathrm{pk}_{m|_i0},\mathrm{sk}_{m|_i0},\mathrm{pk}_{m|_i1},\mathrm{sk}_{m|_i1}\}]$
-(2) $\sigma_m\leftarrow\mathrm{Sign}_{\mathrm{sk}_m}(m)$
+$(\{\sigma_{m|_i},\mathrm{pk}_{m|_i0},\mathrm{pk}\_{m|_i1}|0\leq i\leq n-1\},\sigma_m)\leftarrow\mathrm{Sign}^{\ast}\_{\mathrm{sk}\_{\emptyset},s}(m),m\in\{0,1\}^n$:
+(1) 对 $i\leq n-1$，若 $\sigma_{m|_i},\mathrm{pk}\_{m|_i0},\mathrm{pk}\_{m|_i1}$不在 $s$中，则有
+$(\mathrm{pk}\_{m|_{i}0},\mathrm{sk}\_{m|_i1}),(\mathrm{pk}\_{m|_i1},\mathrm{sk}\_{m|_i1})\leftarrow\mathrm{Gen}(1^n);$
+$\sigma\_{m|_i}\leftarrow\mathrm{Sign}\_{\mathrm{sk}\_{m|_i}}(\mathrm{pk}\_{m|_i0}||\mathrm{pk}\_{m|_i1})$
+$s=[\{\sigma_{m|_i},\mathrm{pk}\_{m|_i0},\mathrm{sk}\_{m|_i0},\mathrm{pk}\_{m|_i1},\mathrm{sk}\_{m|_i1}\}]$
+(2) $\sigma_m\leftarrow\mathrm{Sign}\_{\mathrm{sk}_m}(m)$
 
 Verify:
 
-$\mathrm{Vrfy}^{\ast}_{\mathrm{pk}_{\emptyset}}(m,(\{\sigma_{m|_i},\mathrm{pk}_{m|_i0},\mathrm{pk}_{m|_i1}|i\leq n-1\},\sigma_m))=1$当且仅当：
-$\mathrm{Vrfy}_{\mathrm{pk}_{m|_i}}(\mathrm{pk}_{m|_i0}||\mathrm{pk}_{m|_i1},\sigma_{m|_i})=1,0\leq i\leq n-1;\mathrm{Vrfy}_{\mathrm{pk}_m}(m,\sigma_m)=1$
+$\mathrm{Vrfy}^{\ast}\_{\mathrm{pk}\_{\emptyset}}(m,(\{\sigma_{m|_i},\mathrm{pk}\_{m|_i0},\mathrm{pk}\_{m|_i1}|i\leq n-1\},\sigma_m))=1$当且仅当：
+$\mathrm{Vrfy}\_{\mathrm{pk}\_{m|_i}}(\mathrm{pk}\_{m|_i0}||\mathrm{pk}\_{m|_i1},\sigma_{m|_i})=1,0\leq i\leq n-1;\mathrm{Vrfy}\_{\mathrm{pk}\_m}(m,\sigma_m)=1$
 
 若其的基础的一次签名EUF-OTCMA，则树签名为EUF-CMA。
 

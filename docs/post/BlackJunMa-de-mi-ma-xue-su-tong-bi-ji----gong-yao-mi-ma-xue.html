@@ -473,17 +473,17 @@ $(\sigma,s_i)\leftarrow\mathrm{Sign}_{\mathrm{sk},s_{i-1}}(m)$</p>
 <h5>树式签名</h5>
 <p>设 $(\mathrm{Gen,Sign,Vrfy})$为一次签名， $m=m_1m_2\dots\in{0,1}^{\ast},m|_i=m_1\dots m_i$。构造树式签名 $(\mathrm{Gen}^{\ast},\mathrm{Sign}^{\ast},\mathrm{Vrfy}^{\ast})$如下：</p>
 <p>Setup:</p>
-<p>$(\mathrm{pk}<em>{\emptyset},\mathrm{sk}</em>{\emptyset})\leftarrow\mathrm{Gen}^{\ast}(1^n):(\mathrm{pk}<em>{\emptyset},\mathrm{sk}</em>{\emptyset})\leftarrow\mathrm{Gen}(1^n),s=[\mathrm{sk}_{\emptyset}]$</p>
+<p>$(\mathrm{pk}_{\emptyset},\mathrm{sk}_{\emptyset})\leftarrow\mathrm{Gen}^{\ast}(1^n):(\mathrm{pk}_{\emptyset},\mathrm{sk}_{\emptyset})\leftarrow\mathrm{Gen}(1^n),s=[\mathrm{sk}_{\emptyset}]$</p>
 <p>Sign:</p>
-<p>$({\sigma_{m|<em>i},\mathrm{pk}</em>{m|<em>i0},\mathrm{pk}</em>{m|<em>i1}|0\leq i\leq n-1},\sigma_m)\leftarrow\mathrm{Sign}^{\ast}</em>{\mathrm{sk}<em>{\emptyset},s}(m),m\in{0,1}^n$:<br>
-(1) 对 $i\leq n-1$，若 $\sigma</em>{m|<em>i},\mathrm{pk}</em>{m|<em>i0},\mathrm{pk}</em>{m|<em>i1}$不在 $s$中，则有<br>
-$(\mathrm{pk}</em>{m|<em>{i}0},\mathrm{sk}</em>{m|<em>i1}),(\mathrm{pk}</em>{m|<em>i1},\mathrm{sk}</em>{m|<em>i1})\leftarrow\mathrm{Gen}(1^n);$<br>
-$\sigma</em>{m|<em>i}\leftarrow\mathrm{Sign}</em>{\mathrm{sk}_{m|<em>i}}(\mathrm{pk}</em>{m|<em>i0}||\mathrm{pk}</em>{m|<em>i1})$<br>
-$s=[{\sigma</em>{m|<em>i},\mathrm{pk}</em>{m|<em>i0},\mathrm{sk}</em>{m|<em>i0},\mathrm{pk}</em>{m|<em>i1},\mathrm{sk}</em>{m|<em>i1}}]$<br>
-(2) $\sigma_m\leftarrow\mathrm{Sign}</em>{\mathrm{sk}_m}(m)$</p>
+<p>$({\sigma_{m|<em>i},\mathrm{pk}</em>{m|_i0},\mathrm{pk}_{m|<em>i1}|0\leq i\leq n-1},\sigma_m)\leftarrow\mathrm{Sign}^{\ast}_{\mathrm{sk}_{\emptyset},s}(m),m\in{0,1}^n$:<br>
+(1) 对 $i\leq n-1$，若 $\sigma</em>{m|_i},\mathrm{pk}_{m|_i0},\mathrm{pk}_{m|<em>i1}$不在 $s$中，则有<br>
+$(\mathrm{pk}_{m|</em>{i}0},\mathrm{sk}_{m|_i1}),(\mathrm{pk}_{m|_i1},\mathrm{sk}_{m|_i1})\leftarrow\mathrm{Gen}(1^n);$<br>
+$\sigma_{m|_i}\leftarrow\mathrm{Sign}_{\mathrm{sk}_{m|_i}}(\mathrm{pk}_{m|_i0}||\mathrm{pk}_{m|<em>i1})$<br>
+$s=[{\sigma</em>{m|_i},\mathrm{pk}_{m|_i0},\mathrm{sk}_{m|_i0},\mathrm{pk}_{m|_i1},\mathrm{sk}_{m|_i1}}]$<br>
+(2) $\sigma_m\leftarrow\mathrm{Sign}_{\mathrm{sk}_m}(m)$</p>
 <p>Verify:</p>
-<p>$\mathrm{Vrfy}^{\ast}<em>{\mathrm{pk}</em>{\emptyset}}(m,({\sigma_{m|<em>i},\mathrm{pk}</em>{m|<em>i0},\mathrm{pk}</em>{m|<em>i1}|i\leq n-1},\sigma_m))=1$当且仅当：<br>
-$\mathrm{Vrfy}</em>{\mathrm{pk}_{m|<em>i}}(\mathrm{pk}</em>{m|<em>i0}||\mathrm{pk}</em>{m|<em>i1},\sigma</em>{m|<em>i})=1,0\leq i\leq n-1;\mathrm{Vrfy}</em>{\mathrm{pk}_m}(m,\sigma_m)=1$</p>
+<p>$\mathrm{Vrfy}^{\ast}_{\mathrm{pk}_{\emptyset}}(m,({\sigma_{m|_i},\mathrm{pk}_{m|_i0},\mathrm{pk}_{m|_i1}|i\leq n-1},\sigma_m))=1$当且仅当：<br>
+$\mathrm{Vrfy}_{\mathrm{pk}_{m|_i}}(\mathrm{pk}_{m|_i0}||\mathrm{pk}_{m|<em>i1},\sigma</em>{m|_i})=1,0\leq i\leq n-1;\mathrm{Vrfy}_{\mathrm{pk}_m}(m,\sigma_m)=1$</p>
 <p>若其的基础的一次签名EUF-OTCMA，则树签名为EUF-CMA。</p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
